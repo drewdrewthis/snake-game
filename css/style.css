@@ -1,0 +1,28 @@
+:root {
+  background: black;
+  color: white;
+  font-family: 'Arial';
+}
+header .title {
+  text-align: center;
+}
+.board {
+  background: green;
+  width: 500px;
+  height: 500px;
+  border: 3px double white;
+  margin: auto;
+  padding: 0;
+}
+.board .quadrant {
+  border: 1px solid grey;
+  box-sizing: border-box;
+  width: 10px;
+  height: 10px;
+  float: left;
+  margin: 0;
+  padding: 0;
+}
+.board .litup {
+  background: orange;
+}
