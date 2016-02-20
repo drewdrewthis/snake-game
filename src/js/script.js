@@ -1,8 +1,6 @@
-var direction;
+var direction = "right";
 
 $(document).ready(function() {
-
-
 
 	function setup() {
 		for (var y = 0; y < 50; y++) {
@@ -18,39 +16,59 @@ $(document).ready(function() {
 
 		setTimeout(function() {
 			$('[data-xcoord =' + xcoord + '][data-ycoord =' + ycoord + ']').removeClass("litup");
-			xcoord++;
-			progress_snake(xcoord,ycoord);
+			switch (direction) {
+				case "left":
+					xcoord--;
+					break;
+
+				case "up": // up
+					ycoord--;
+					break;
+
+				case "right":
+					xcoord++;
+					break;
+
+				case "down": // down
+					ycoord++;
+					break;
+
+				default:
+					return; // exit this handler for other keys
+			}
+			progress_snake(xcoord, ycoord);
 		}, 100);
 	}
 
 	setup();
-	progress_snake(0,0);
+	progress_snake(0, 0);
 
 });
 
 $(document).keydown(function(e) {
-    switch(e.which) {
-        case 37: // left
-        direction = "left";
-        console.log('left');
-        break;
+	switch (e.which) {
+		case 37: // left
+			direction = "left";
+			console.log('left');
+			break;
 
-        case 38: // up
-        direction = "up";
-        console.log('up');
-        break;
+		case 38: // up
+			direction = "up";
+			console.log('up');
+			break;
 
-        case 39: // right
-        direction = "right";
-        console.log('right');
-        break;
+		case 39: // right
+			direction = "right";
+			console.log('right');
+			break;
 
-        case 40: // down
-        direction = "down";
-        console.log('down');
-        break;
+		case 40: // down
+			direction = "down";
+			console.log('down');
+			break;
 
-        default: return; // exit this handler for other keys
-    }
-    e.preventDefault(); // prevent the default action (scroll / move caret)
+		default:
+			return; // exit this handler for other keys
+	}
+	e.preventDefault(); // prevent the default action (scroll / move caret)
 });

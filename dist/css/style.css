@@ -25,4 +25,5 @@ header .title {
 }
 .board .litup {
   background: orange;
+  border-radius: 100%;
 }

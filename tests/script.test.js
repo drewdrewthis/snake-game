@@ -23,4 +23,8 @@ describe('Snake', function() {
 		
 	});
 
+	it('should turn be able to spot and start on pause', function() {
+		
+	});
+
 });
