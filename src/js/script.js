@@ -1,44 +1,59 @@
 var direction = "right";
 
-$(document).ready(function() {
-
-	function setup() {
-		for (var y = 0; y < 50; y++) {
-			for (var x = 0; x < 50; x++) {
-				$('.board').append('<div class="quadrant" data-xcoord="' + x + '" data-ycoord="' + y + '"></div>');
-			}
+function setup() {
+	for (var y = 0; y < 50; y++) {
+		for (var x = 0; x < 50; x++) {
+			$('.board').append('<div class="quadrant" data-xcoord="' + x + '" data-ycoord="' + y + '"></div>');
 		}
 	}
+}
 
-	function progress_snake(xcoord, ycoord) {
-
-		$('[data-xcoord =' + xcoord + '][data-ycoord =' + ycoord + ']').addClass("litup");
-
-		setTimeout(function() {
-			$('[data-xcoord =' + xcoord + '][data-ycoord =' + ycoord + ']').removeClass("litup");
-			switch (direction) {
-				case "left":
-					xcoord--;
-					break;
-
-				case "up": // up
-					ycoord--;
-					break;
-
-				case "right":
-					xcoord++;
-					break;
-
-				case "down": // down
-					ycoord++;
-					break;
-
-				default:
-					return; // exit this handler for other keys
-			}
-			progress_snake(xcoord, ycoord);
-		}, 100);
+function isOver(x, y) {
+	if (x >= 50 || y >= 50 || x < 0 || y < 0) {
+		return true;
+	} else {
+		return false;
 	}
+}
+
+function progress_snake(xcoord, ycoord) {
+
+	$('[data-xcoord =' + xcoord + '][data-ycoord =' + ycoord + ']').addClass("litup");
+
+	var progress_loop = setTimeout(function() {
+		$('[data-xcoord =' + xcoord + '][data-ycoord =' + ycoord + ']').removeClass("litup");
+		switch (direction) {
+			case "left":
+				xcoord--;
+				break;
+
+			case "up": // up
+				ycoord--;
+				break;
+
+			case "right":
+				xcoord++;
+				break;
+
+			case "down": // down
+				ycoord++;
+				break;
+
+			default:
+				return; // exit this handler for other keys
+		}
+
+		if (isOver(xcoord, ycoord)) {
+			clearTimeout(progress_loop);
+			console.log('Over!');
+		} else {
+			progress_snake(xcoord, ycoord);
+		}
+
+	}, 100);
+}
+
+$(document).ready(function() {
 
 	setup();
 	progress_snake(0, 0);
