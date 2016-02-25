@@ -44,28 +44,9 @@ describe('Snake Game Initialization', function() {
     });
 
   });
-
-  describe('End of game', function() {
-    it('should happen when snake head leaves board', function() {
-      snake[head] = [51, 1];
-      expect(isOver(snake[head])).toBe(true);
-      snake[head] = [1, 51];
-      expect(isOver(snake[head])).toBe(true);
-      snake[head] = [1, -1];
-      expect(isOver(snake[head])).toBe(true);
-      snake[head] = [-1, 1];
-      expect(isOver(snake[head])).toBe(true);
-      snake[head] = [25, 25];
-      expect(isOver(snake[head])).toBe(false);
-    });
-
-    xit('should happen when snake head touches snake body', function() {
-
-    });
-  });
 });
 
-describe('Game After Run', function() {
+describe('Game Run', function() {
 
   beforeEach(function(done) {
     jasmine.getFixtures().set('<div class="board"></div>');
@@ -80,7 +61,6 @@ describe('Game After Run', function() {
   describe('The snake', function() {
 
     it('should move', function(done) {
-      console.log($('.snake'));
       expect(quad([24, 24])).not.toHaveClass('snake');
       done();
     });
@@ -101,6 +81,86 @@ describe('Game After Run', function() {
     expect(quad([x, y])).not.toHaveClass('fruit');
     expect(quad([26, 24])).not.toHaveClass('snake');
     done();
+  });
+});
+
+describe('End of game', function() {
+
+  beforeEach(function() {
+    jasmine.getFixtures().set('<div class="board"></div>');
+    setup();
+  });
+
+  describe('When snake goes left', function() {
+    beforeEach(function(done) {
+      direction = "left";
+      progress_snake(snake);
+      setTimeout(function() {
+        value = 0;
+        done();
+      }, 3000);
+    });
+
+    it('should happen when snake head hits board edge', function(done) {
+      expect(isOver(snake[head])).toBe(true);
+      done();
+    });
+
+  });
+
+  describe('When snake goes up', function() {
+    beforeEach(function(done) {
+      direction = "up";
+      progress_snake(snake);
+      setTimeout(function() {
+        value = 0;
+        done();
+      }, 3000);
+    });
+
+    it('should happen when snake head hits board edge', function(done) {
+      expect(isOver(snake[head])).toBe(true);
+      done();
+    });
+
+  });
+
+  describe('When snake goes right', function() {
+    beforeEach(function(done) {
+      direction = "right";
+      progress_snake(snake);
+      setTimeout(function() {
+        value = 0;
+        done();
+      }, 3000);
+    });
+
+    it('should happen when snake head hits board edge', function(done) {
+      expect(isOver(snake[head])).toBe(true);
+      done();
+    });
+
+  });
+
+  describe('When snake goes down', function() {
+    beforeEach(function(done) {
+      direction = "down";
+      progress_snake(snake);
+      setTimeout(function() {
+        value = 0;
+        done();
+      }, 3000);
+    });
+
+    it('should happen when snake head hits board edge', function(done) {
+      expect(isOver(snake[head])).toBe(true);
+      done();
+    });
+
+  });
+
+  xit('should happen when snake head touches snake body', function() {
+
   });
 });
 

@@ -91,8 +91,7 @@ function progress_snake(snake) {
 
 		if (isOver(snake[head])) {
 			clearTimeout(progress_loop);
-			console.log("Over!");
-			console.log(x);
+			console.log("Over! " + x + "," + y);
 		} else {
 
 			if (isFruit(snake[head])) {
