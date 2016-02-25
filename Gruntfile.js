@@ -13,14 +13,15 @@ module.exports = function(grunt) {
 		karma: {
 			unit: {
 				configFile: 'karma.conf.js',
-				background: true,
-				singleRun: false
+				//background: true,
+				//singleRun: false
 			}
 		},
 
 		// all of our configuration will go here
 		jshint: {
 			options: {
+				//asi: true,
 				reporter: require('jshint-stylish') // use jshint-stylish to make our errors look and read good
 			},
 			// when this task is run, lint the Gruntfile and all js files in src
@@ -76,12 +77,12 @@ module.exports = function(grunt) {
 			},
 			karma: {
 				files: ['src/**/*.js', 'tests/**/*.js'],
-				tasks: ['karma:unit:run'] //NOTE the :run flag
+				//tasks: ['karma:unit:run'] //NOTE the :run flag
 			}
 		}
 	});
 
-	grunt.registerTask('default', ['jshint', 'uglify', 'cssmin', 'less','reload']);
+	grunt.registerTask('default', ['jshint', 'uglify', 'cssmin', 'less']);
 	grunt.registerTask('test', ['karma']);
 
 	// ===========================================================================
@@ -95,5 +96,5 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-cssmin');
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-karma');
-	grunt.loadNpmTasks('grunt-reload');
+	//grunt.loadNpmTasks('grunt-reload');
 };

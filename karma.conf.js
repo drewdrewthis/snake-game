@@ -5,10 +5,11 @@ module.exports = function(config) {
         basePath: '',
  
         // frameworks to use
-        frameworks: ['jasmine'],
+        frameworks: ['jasmine-jquery','jasmine'],
  
         // list of files / patterns to load in the browser
         files: [
+            'dist/js/jquery-2.2.0.min.js',
             'src/**/*.js',
             'tests/**/*.js'
         ],

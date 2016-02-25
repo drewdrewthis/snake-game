@@ -23,7 +23,11 @@ header .title {
   margin: 0;
   padding: 0;
 }
-.board .litup {
+.board .snake {
   background: orange;
+  border-radius: 100%;
+}
+.board .fruit {
+  background-color: red;
   border-radius: 100%;
 }
