@@ -181,6 +181,33 @@ $(document).ready(function() {
 	$('#more_frogs').on('click', function() {
 		makeFruits();
 	});
+
+	// Game controller 
+	$('#left').on('click', function() {
+		if (direction != "right") {
+			direction = "left";
+			console.log('left');
+		}
+	});
+	$('#up').on('click', function() {
+		if (direction != "down") {
+			direction = "up";
+			console.log('up');
+		}
+	});
+	$('#right').on('click', function() {
+		if (direction != "left") {
+			direction = "right";
+			console.log('right');
+		}
+	});
+	$('#down').on('click', function() {
+		if (direction != "up") {
+			direction = "down";
+			console.log('down');
+		}
+	});
+
 });
 
 // Take user input and set snake direction

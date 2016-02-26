@@ -39,5 +39,8 @@
     "karma-sauce-launcher": "~0.1.8",
     "karma-script-launcher": "~0.1.0",
     "karma-story-reporter": "~0.2.2"
+  },
+  "dependencies": {
+    "grunt-sync": "^0.5.2"
   }
 }
