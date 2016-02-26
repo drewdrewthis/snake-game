@@ -10,31 +10,21 @@ module.exports = function(grunt) {
 		// this way we can use things like name and version (pkg.name)
 		pkg: grunt.file.readJSON('package.json'),
 
+		processhtml: {
+			options: {
+				
+			},
+			dist: {
+				files: {
+					'dist/index.html': ['index.html']
+				}
+			}
+		},
 		karma: {
 			unit: {
 				configFile: 'karma.conf.js',
 				background: true,
 				singleRun: false
-			}
-		},
-		sync: {
-			main: {
-				files: [{
-					src: [
-						'index.html'
-					],
-					dest: 'dist',
-				}, {
-					src: [
-						'node_modules/font-awesome/css/font-awesome.min.css',
-						'node_modules/bootstrap/dist/css/bootstrap.min.css',
-						'node_modules/jquery/dist/jquery.min.js',
-						'node_modules/bootstrap/dist/js/bootstrap.min.js'
-					],
-					dest: 'dist/',
-				}],
-				pretend: false, // Don't do any IO. Before you run the task with `updateAndDelete` PLEASE MAKE SURE it doesn't remove too much. 
-				verbose: true // Display log messages when copying files 
 			}
 		},
 		// all of our configuration will go here
@@ -101,7 +91,7 @@ module.exports = function(grunt) {
 		}
 	});
 
-	grunt.registerTask('default', ['sync', 'jshint', 'uglify', 'cssmin', 'less']);
+	grunt.registerTask('default', ['processhtml','jshint', 'uglify', 'cssmin', 'less']);
 	grunt.registerTask('test', ['karma']);
 
 	// ===========================================================================
@@ -115,6 +105,6 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-cssmin');
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-karma');
-	grunt.loadNpmTasks('grunt-sync');
+	grunt.loadNpmTasks('grunt-processhtml');
 	//grunt.loadNpmTasks('grunt-reload');
 };
