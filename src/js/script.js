@@ -1,7 +1,6 @@
 var direction = "right",
 	snake = [],
-	head = 1,
-	tail = 0;
+	head = 1;
 
 // Takes coordinates and returns the quadrant 
 function quad(coord) {
@@ -24,7 +23,7 @@ function setup() {
 	snake = [
 		[24, 24]
 	];
-	head = 1;
+	head = snake.length - 1;
 	tail = 0;
 	for (var y = 0; y < 50; y++) {
 		for (var x = 0; x < 50; x++) {
@@ -141,23 +140,31 @@ $(document).ready(function() {
 $(document).keydown(function(e) {
 	switch (e.which) {
 		case 37: // left
-			direction = "left";
-			//console.log('left');
+			if (direction != "right") {
+				direction = "left";
+				//console.log('left');
+			}
 			break;
 
 		case 38: // up
-			direction = "up";
-			//console.log('up');
+			if (direction != "down") {
+				direction = "up";
+				//console.log('up');
+			}
 			break;
 
 		case 39: // right
-			direction = "right";
-			//console.log('right');
+			if (direction != "left") {
+				direction = "right";
+				//console.log('right');
+			}
 			break;
 
 		case 40: // down
-			direction = "down";
-			//console.log('down');
+			if (direction != "up") {
+				direction = "down";
+				//console.log('down');
+			}
 			break;
 
 		default:
