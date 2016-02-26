@@ -1,8 +1,6 @@
 var direction = "right",
-	snake = [
-		[24, 24]
-	],
-	head = 0,
+	snake = [],
+	head = 1,
 	tail = 0;
 
 // Takes coordinates and returns the quadrant 
@@ -12,10 +10,11 @@ function quad(coord) {
 
 // Randomly place a piece of fruit on the board
 function makeFruits() {
-	var x = Math.floor(Math.random() * (50 - 0)) + 1;
-	var y = Math.floor(Math.random() * (50 - 0)) + 1;
+	var x = Math.floor(Math.random() * (49 - 0)) + 1;
+	var y = Math.floor(Math.random() * (49 - 0)) + 1;
 
 	quad([x, y]).addClass('fruit');
+	console.log("New Fruit: " + x + "," + y);
 }
 
 // Set up the board and initialize the game
@@ -25,7 +24,7 @@ function setup() {
 	snake = [
 		[24, 24]
 	];
-	head = 0;
+	head = 1;
 	tail = 0;
 	for (var y = 0; y < 50; y++) {
 		for (var x = 0; x < 50; x++) {
@@ -63,27 +62,29 @@ function isFruit(coord) {
 // Test move to see if game has ended
 function progress_snake(snake) {
 
+	head = snake.length - 1;
+	tail = 0;
 	var x = snake[head][0];
 	var y = snake[head][1];
-	var last_pos = [x, y];
+	var new_pos = [x, y];
 
 	// "Hypothetically" moves the head one space ahead.
 
 	switch (direction) {
 		case "left":
-			snake[head][0]--;
+			new_pos[0]--;
 			break;
 
 		case "up": // up
-			snake[head][1]--;
+			new_pos[1]--;
 			break;
 
 		case "right":
-			snake[head][0]++;
+			new_pos[0]++;
 			break;
 
 		case "down": // down
-			snake[head][1]++;
+			new_pos[1]++;
 			break;
 	}
 
@@ -94,18 +95,36 @@ function progress_snake(snake) {
 			console.log("Over! " + x + "," + y);
 		} else {
 
-			if (isFruit(snake[head])) {
+			if (isFruit(new_pos)) {
 
-				quad(snake[head]).removeClass("fruit");
+				// Remove fruit class and make a new fruit
+				quad(new_pos).removeClass("fruit");
 				makeFruits();
-				snake.unshift(last_pos);
+
+				// Add new position to snake array
+				snake.push(new_pos);
+
+				// Reset head
+				head = snake.length - 1;
 
 			} else {
 
-				quad(last_pos).removeClass("snake");
+				// Remove tail
+				quad(snake[0]).removeClass("snake");
+
+				// Move each snake coordinate up one place in snake array
+				for (var i = 0; i < snake.length - 1; i++) {
+					snake[i] = snake[i + 1];
+				}
+
+				// Gives the snake head new coords
+				snake[head] = new_pos;
 			}
 
+			// Give new head position snake class
 			quad(snake[head]).addClass("snake");
+
+			// Goes through the cycles again
 			progress_snake(snake);
 		}
 
