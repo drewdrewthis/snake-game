@@ -1,7 +1,4 @@
-var direction = "right",
-	snake = [],
-	head = 1,
-	paused = false;
+var direction,snake,head,paused,score;
 
 // Takes coordinates and returns the quadrant 
 function quad(coord) {
@@ -20,11 +17,16 @@ function makeFruits() {
 // Set up the board and initialize the game
 function setup() {
 	$('.board').html('');
+	score = 0;
+	$('#score').text(score);
+	paused = true;
 	direction = "right";
 	snake = [
 		[24, 24]
 	];
 	head = snake.length - 1;
+
+	// Build board quadrants
 	for (var y = 0; y < 50; y++) {
 		for (var x = 0; x < 50; x++) {
 			$('.board').append('<div class="quadrant" data-xcoord="' + x + '" data-ycoord="' + y + '"></div>');
@@ -76,6 +78,8 @@ function growSnake(new_pos) {
 function isFruit(coord) {
 
 	if (quad(coord).hasClass('fruit')) {
+		score++;
+		$('#score').text(score);
 		return true;
 	}
 	return false;
@@ -153,8 +157,8 @@ $(document).ready(function() {
 
 	setup();
 
+	// Set button click functions
 	$('#start_stop').on('click', function() {
-
 		if ($(this).text() == "Pause") {
 			pauseGame();
 			return;
@@ -169,16 +173,13 @@ $(document).ready(function() {
 			return;
 		}
 	});
-
 	$('#reset').on('click', function() {
 		$('#start_stop').text("Start");
 		setup();
 	});
-
 	$('#more_frogs').on('click', function() {
 		makeFruits();
 	});
-
 });
 
 // Take user input and set snake direction

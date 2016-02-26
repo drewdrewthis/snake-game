@@ -44,3 +44,7 @@ header .title {
   margin: 10px auto;
   outline: none;
 }
+#legend .game_info {
+  text-align: center;
+  color: white;
+}
