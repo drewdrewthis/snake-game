@@ -18,6 +18,11 @@ module.exports = function(grunt) {
 				files: {
 					'dist/index.html': ['index.html']
 				}
+			},
+			dev: {
+				files: {
+					'src/index.html': ['index.html']
+				}
 			}
 		},
 		karma: {
@@ -50,7 +55,7 @@ module.exports = function(grunt) {
 		less: {
 			build: {
 				files: {
-					'dist/css/style.css': 'src/css/style.less'
+					'src/css/style.css': 'src/css/style.less'
 				}
 			}
 		},
@@ -61,7 +66,7 @@ module.exports = function(grunt) {
 			},
 			build: {
 				files: {
-					'dist/css/style.min.css': 'dist/css/style.css'
+					'dist/css/style.min.css': 'src/css/style.css'
 				}
 			}
 		},
@@ -72,7 +77,10 @@ module.exports = function(grunt) {
 			}
 		},
 		watch: {
-			files: ['index.html'],
+			index: {
+				files: ['index.html'],
+				tasks: ['processhtml']
+			},
 			// for stylesheets, watch css and less files 
 			// only run less and cssmin 
 			stylesheets: {
@@ -86,7 +94,7 @@ module.exports = function(grunt) {
 			},
 			karma: {
 				files: ['src/**/*.js', 'tests/**/*.js'],
-				tasks: ['karma:unit:run'] //NOTE the :run flag
+				//tasks: ['karma:unit:run'] //NOTE the :run flag
 			}
 		}
 	});
@@ -106,5 +114,4 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-karma');
 	grunt.loadNpmTasks('grunt-processhtml');
-	//grunt.loadNpmTasks('grunt-reload');
 };

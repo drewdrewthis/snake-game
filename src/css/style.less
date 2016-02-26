@@ -23,8 +23,7 @@ header {
 .board {
     box-sizing: content-box;
     background: green;
-    width: 500px;
-    height: 500px;
+    width: 100%;
     border: 3px double white;
     margin: auto;
     padding: 0;
@@ -40,8 +39,8 @@ header {
     .quadrant {
         //border: 1px solid grey;
         box-sizing: border-box;
-        width: 10px;
-        height: 10px;
+        width: 2%;
+        height: 2%;
         float: left;
         margin: 0;
         padding: 0;
@@ -61,8 +60,6 @@ header {
 #legend {
     .game_buttons {
         button {
-            width: 100%;
-            max-width: 300px;
             margin: 10px auto;
         }
     }
@@ -74,10 +71,42 @@ header {
         button {
             background: white;
             border-radius: 10px;
-
             .fa {
                 font-size: 2rem;
             }
+        }
+    }
+}
+
+@media screen and (min-width: 768px) {
+    .game_buttons {
+        button {
+            width: 100%;
+            max-width: 300px;
+        }
+    }
+}
+
+@media screen and (max-width: 768px) {
+    header {
+        .title {
+            font-size: 1rem;
+        }
+    }
+    .game_buttons {
+        button {
+            font-size: 1rem;
+            height: 60px;
+            width: 60px;
+            border-radius: 100%;
+        }
+        .game_info, h3, h2 { 
+            font-size: 1rem;
+        }
+    }
+    .game_controller {
+        button {
+            height: 5rem;
         }
     }
 }

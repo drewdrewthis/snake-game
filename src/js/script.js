@@ -17,6 +17,7 @@ function makeFruits() {
 // Set up the board and initialize the game
 function setup() {
 	$('.board').html('');
+	$('.board').css('height', $('.board').width());
 	score = 0;
 	$('#score').text(score);
 	paused = true;

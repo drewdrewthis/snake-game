@@ -26,7 +26,6 @@
     "grunt-contrib-watch": "latest",
     "grunt-karma": "^0.12.1",
     "grunt-processhtml": "^0.3.13",
-    "grunt-reload": "^0.2.0",
     "jasmine-core": "^2.4.1",
     "jshint-stylish": "latest",
     "karma": "^0.13.21",
