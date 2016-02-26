@@ -20,6 +20,15 @@ header .title {
   margin: auto;
   padding: 0;
 }
+.board:before {
+  box-shadow: inset 0 0 41px 6px rgba(0, 0, 0, 0.75);
+  content: '';
+  position: absolute;
+  left: 18px;
+  right: 0;
+  width: 96%;
+  height: 99%;
+}
 .board .quadrant {
   box-sizing: border-box;
   width: 10px;
