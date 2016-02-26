@@ -24,7 +24,6 @@ function setup() {
 		[24, 24]
 	];
 	head = snake.length - 1;
-	tail = 0;
 	for (var y = 0; y < 50; y++) {
 		for (var x = 0; x < 50; x++) {
 			$('.board').append('<div class="quadrant" data-xcoord="' + x + '" data-ycoord="' + y + '"></div>');
@@ -37,7 +36,14 @@ function setup() {
 // Test move to see if game has ended
 function isOver(coord) {
 
+	if (quad(coord).hasClass("snake")) {
+
+		console.log("Over! Bit its tail! " + coord);
+		return true;
+	}
+
 	if (coord[0] >= 50 || coord[1] >= 50 || coord[0] < 0 || coord[1] < 0) {
+		console.log("Over! Crashed into the wall! " + coord);
 		return true;
 	} else {
 		return false;
@@ -91,9 +97,8 @@ function progress_snake(snake) {
 
 	var progress_loop = setTimeout(function() {
 
-		if (isOver(snake[head])) {
+		if (isOver(new_pos)) {
 			clearTimeout(progress_loop);
-			console.log("Over! " + x + "," + y);
 		} else {
 
 			if (isFruit(new_pos)) {
