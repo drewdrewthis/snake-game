@@ -4,13 +4,21 @@
     font-family: 'Arial';
 }
 
+body {
+
+    padding: 0 50px;
+    background-color: transparent;
+}
+
 header {
     .title {
         text-align: center;
+        color: white;
     }
 }
 
 .board {
+    box-sizing: content-box;
     background: green;
     width: 500px;
     height: 500px;
@@ -36,5 +44,13 @@ header {
     .fruit {
         background: red;
         border-radius: 100%;
+    }
+}
+
+#legend {
+    button {
+        width: 100%;
+        max-width: 300px;
+        margin: 10px auto;
     }
 }
