@@ -1,6 +1,7 @@
 var direction = "right",
 	snake = [],
-	head = 1;
+	head = 1,
+	paused = false;
 
 // Takes coordinates and returns the quadrant 
 function quad(coord) {
@@ -125,8 +126,10 @@ function progress_snake(snake) {
 			// Give new head position snake class
 			quad(snake[head]).addClass("snake");
 
-			// Goes through the cycles again
-			progress_snake(snake);
+			// Goes through the cycles again if not paused
+			if(!paused) {
+				progress_snake(snake);
+			}
 		}
 
 	}, 100);
@@ -171,6 +174,18 @@ $(document).keydown(function(e) {
 				//console.log('down');
 			}
 			break;
+
+		case 80: // p
+		case 27: //escape
+			if (!paused) {
+				paused = true;
+			}
+			else {
+				progress_snake(snake);
+				paused = false;
+			}
+			break;
+
 
 		default:
 			return; // exit this handler for other keys

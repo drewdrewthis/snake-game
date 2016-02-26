@@ -15,19 +15,20 @@ header .title {
   padding: 0;
 }
 .board .quadrant {
-  border: 1px solid grey;
   box-sizing: border-box;
   width: 10px;
   height: 10px;
   float: left;
   margin: 0;
   padding: 0;
+  background: url(../../src/images/grass.gif);
+  background-size: cover;
 }
 .board .snake {
   background: orange;
   border-radius: 100%;
 }
 .board .fruit {
-  background-color: red;
+  background: red;
   border-radius: 100%;
 }
