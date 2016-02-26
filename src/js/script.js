@@ -169,6 +169,7 @@ $(document).ready(function() {
 		}
 		if ($(this).text() == "Start") {
 			$(this).text("Pause");
+			paused = false;
 			progress_snake(snake);
 			return;
 		}
