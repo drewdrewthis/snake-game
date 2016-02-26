@@ -42,4 +42,5 @@ header .title {
   width: 100%;
   max-width: 300px;
   margin: 10px auto;
+  outline: none;
 }

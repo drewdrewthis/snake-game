@@ -34,6 +34,18 @@ function setup() {
 	quad(snake[0]).addClass("snake");
 }
 
+function pauseGame() {
+	if (!paused) {
+		paused = true;
+		$('#start_stop').text("Resume");
+
+	} else {
+		progress_snake(snake);
+		$('#start_stop').text("Pause");
+		paused = false;
+	}
+}
+
 // Test move to see if game has ended
 function isOver(coord) {
 
@@ -127,7 +139,7 @@ function progress_snake(snake) {
 			quad(snake[head]).addClass("snake");
 
 			// Goes through the cycles again if not paused
-			if(!paused) {
+			if (!paused) {
 				progress_snake(snake);
 			}
 		}
@@ -140,7 +152,32 @@ function progress_snake(snake) {
 $(document).ready(function() {
 
 	setup();
-	progress_snake(snake);
+
+	$('#start_stop').on('click', function() {
+
+		if ($(this).text() == "Pause") {
+			pauseGame();
+			return;
+		} 
+		if ($(this).text() == "Resume"){
+			pauseGame();
+			return;
+		}
+		if ($(this).text() == "Start") {
+			$(this).text("Pause");
+			progress_snake(snake);
+			return;
+		}
+	});
+
+	$('#reset').on('click', function() {
+		$('#start_stop').text("Start");
+		setup();
+	});
+
+	$('#more_frogs').on('click', function() {
+		makeFruits();
+	});
 
 });
 
@@ -177,15 +214,8 @@ $(document).keydown(function(e) {
 
 		case 80: // p
 		case 27: //escape
-			if (!paused) {
-				paused = true;
-			}
-			else {
-				progress_snake(snake);
-				paused = false;
-			}
+			pauseGame();
 			break;
-
 
 		default:
 			return; // exit this handler for other keys
