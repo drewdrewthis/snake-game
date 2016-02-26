@@ -7,6 +7,9 @@ body {
   padding: 0 50px;
   background-color: transparent;
 }
+button {
+  outline: none;
+}
 header .title {
   text-align: center;
   color: white;
@@ -50,7 +53,6 @@ header .title {
   width: 100%;
   max-width: 300px;
   margin: 10px auto;
-  outline: none;
 }
 #legend .game_info {
   text-align: center;
