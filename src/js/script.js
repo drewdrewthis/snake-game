@@ -46,8 +46,12 @@ function isOver(coord) {
 }
 
 // Grow snake
-function growSnake() {
-	//snake_length++;
+function growSnake(new_pos) {
+	// Add new position to snake array
+	snake.push(new_pos);
+
+	// Reset head
+	head = snake.length - 1;
 }
 
 // Tests to see if the quadrant the snake entered has fruit
@@ -62,8 +66,6 @@ function isFruit(coord) {
 // Test move to see if game has ended
 function progress_snake(snake) {
 
-	head = snake.length - 1;
-	tail = 0;
 	var x = snake[head][0];
 	var y = snake[head][1];
 	var new_pos = [x, y];
@@ -100,12 +102,7 @@ function progress_snake(snake) {
 				// Remove fruit class and make a new fruit
 				quad(new_pos).removeClass("fruit");
 				makeFruits();
-
-				// Add new position to snake array
-				snake.push(new_pos);
-
-				// Reset head
-				head = snake.length - 1;
+				growSnake(new_pos);
 
 			} else {
 
