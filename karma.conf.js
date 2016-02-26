@@ -9,7 +9,7 @@ module.exports = function(config) {
  
         // list of files / patterns to load in the browser
         files: [
-            'dist/js/jquery-2.2.0.min.js',
+            'node_modules/jquery/dist/jquery.min.js',
             'src/**/*.js',
             'tests/**/*.js'
         ],

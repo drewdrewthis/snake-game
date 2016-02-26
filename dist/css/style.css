@@ -36,7 +36,6 @@ header .title {
   float: left;
   margin: 0;
   padding: 0;
-  background: url(../../src/images/grass.gif);
   background-size: cover;
 }
 .board .snake {
@@ -47,7 +46,7 @@ header .title {
   background: red;
   border-radius: 100%;
 }
-#legend button {
+#legend .game_buttons button {
   width: 100%;
   max-width: 300px;
   margin: 10px auto;
@@ -56,4 +55,11 @@ header .title {
 #legend .game_info {
   text-align: center;
   color: white;
+}
+#legend .game_controller button {
+  background: white;
+  border-radius: 10px;
+}
+#legend .game_controller button .fa {
+  font-size: 2rem;
 }

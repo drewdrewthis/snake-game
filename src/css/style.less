@@ -41,7 +41,7 @@ header {
         float: left;
         margin: 0;
         padding: 0;
-        background: url(../../src/images/grass.gif);
+        //background: url(../../src/images/grass.gif);
         background-size: cover;
     }
     .snake {
@@ -55,14 +55,26 @@ header {
 }
 
 #legend {
-    button {
-        width: 100%;
-        max-width: 300px;
-        margin: 10px auto;
-        outline: none;
+    .game_buttons {
+        button {
+            width: 100%;
+            max-width: 300px;
+            margin: 10px auto;
+            outline: none;
+        }
     }
     .game_info {
         text-align: center;
         color: white;
+    }
+    .game_controller {
+        button {
+            background: white;
+            border-radius: 10px;
+
+            .fa {
+                font-size: 2rem;
+            }
+        }
     }
 }

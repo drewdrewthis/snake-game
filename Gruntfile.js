@@ -77,7 +77,7 @@ module.exports = function(grunt) {
 			},
 			karma: {
 				files: ['src/**/*.js', 'tests/**/*.js'],
-				//tasks: ['karma:unit:run'] //NOTE the :run flag
+				tasks: ['karma:unit:run'] //NOTE the :run flag
 			}
 		}
 	});
