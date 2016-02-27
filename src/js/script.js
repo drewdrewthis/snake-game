@@ -1,4 +1,4 @@
-var direction,snake,head,paused,score;
+var direction, snake, head, paused, score;
 
 // Takes coordinates and returns the quadrant 
 function quad(coord) {
@@ -163,8 +163,8 @@ $(document).ready(function() {
 		if ($(this).text() == "Pause") {
 			pauseGame();
 			return;
-		} 
-		if ($(this).text() == "Resume"){
+		}
+		if ($(this).text() == "Resume") {
 			pauseGame();
 			return;
 		}
@@ -217,6 +217,7 @@ $(document).keydown(function(e) {
 		case 37: // left
 			if (direction != "right") {
 				direction = "left";
+				$('#left').addClass('pressed');
 				//console.log('left');
 			}
 			break;
@@ -224,6 +225,7 @@ $(document).keydown(function(e) {
 		case 38: // up
 			if (direction != "down") {
 				direction = "up";
+				$('#up').addClass('pressed');
 				//console.log('up');
 			}
 			break;
@@ -231,6 +233,7 @@ $(document).keydown(function(e) {
 		case 39: // right
 			if (direction != "left") {
 				direction = "right";
+				$('#right').addClass('pressed');
 				//console.log('right');
 			}
 			break;
@@ -238,6 +241,7 @@ $(document).keydown(function(e) {
 		case 40: // down
 			if (direction != "up") {
 				direction = "down";
+				$('#down').addClass('pressed');
 				//console.log('down');
 			}
 			break;
@@ -245,6 +249,36 @@ $(document).keydown(function(e) {
 		case 80: // p
 		case 27: //escape
 			pauseGame();
+			break;
+
+		default:
+			return; // exit this handler for other keys
+	}
+	e.preventDefault(); // prevent the default action (scroll / move caret)
+});
+
+// Take user input and set snake direction
+$(document).keyup(function(e) {
+	switch (e.which) {
+		case 37: // left
+
+			$('#left').removeClass('pressed');
+			console.log('up');
+			break;
+
+		case 38: // up
+
+			$('#up').removeClass('pressed');
+			break;
+
+		case 39: // right
+
+			$('#right').removeClass('pressed');
+			break;
+
+		case 40: // down
+
+			$('#down').removeClass('pressed');
 			break;
 
 		default:
