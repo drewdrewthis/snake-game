@@ -158,6 +158,11 @@ $(document).ready(function() {
 
 	setup();
 
+	window.addEventListener("resize", function() {
+		$('.board').css('height', $('.board').width());
+	}, false);
+	
+
 	// Set button click functions
 	$('#start_stop').on('tap', function() {
 		if ($(this).text() == "Pause") {

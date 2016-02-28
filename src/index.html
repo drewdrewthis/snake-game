@@ -9,16 +9,32 @@
     <link rel="stylesheet" type="text/css" href="../node_modules/bootstrap/dist/css/bootstrap.min.css" type="text/javascript">
     <link rel="stylesheet" type="text/css" href="../node_modules/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" type="text/css" href="css/style.css">
-    <!-- /build -->    <!-- build:remove:dist -->
+    <!-- /build -->
+    <!-- build:remove:dist -->
     <script src="../node_modules/jquery/dist/jquery.min.js" type="text/javascript"></script>
     <script src="../node_modules/bootstrap/dist/js/bootstrap.min.js" type="text/javascript"></script>
     <script src="../node_modules/jquery-mobile/dist/jquery.mobile.min.js" type="text/javascript"></script>
     <script src="js/script.js" type="text/javascript"></script>
-    <!-- /build --></head>
+    <!-- /build -->
+</head>
 
 <body>
-    <header id="header" class="">
-        <h1 class='title'>Frog Is Happy</h1>
+    <header id="header" class="container-fluid">
+        <div class="row">
+            <div class="col-xs-4">
+                <div class="game_info">
+                    <span class='title'>Frog Is Happy</span>
+                    <span>Score: </span><span id="score">0</span>
+                </div>
+            </div>
+            <div class="col-xs-8">
+                <div class="game_buttons">
+                    <button id="start_stop" class="btn-primary">Start</button>
+                    <button id="reset" class="btn-warning">Reset</button>
+                    <button id="more_frogs" class="btn-danger">More Frogs!</button>
+                </div>
+            </div>
+        </div>
     </header>
     <!-- /header -->
     <section class="row">
@@ -26,15 +42,6 @@
             <div class="board"></div>
         </div>
         <div id="legend" class="right_panel col-sm-4 container-fluid col-xs-12">
-            <div class="row game_buttons">
-                <button id="start_stop" class="btn-primary btn-lg col-xs-3">Start</button>
-                <button id="reset" class="btn-warning btn-lg col-xs-3">Reset</button>
-                <button id="more_frogs" class="btn-danger btn-lg col-xs-3">More Frogs!</button>
-                <div class="game_info col-xs-3">
-                    <h3>Title</h3>
-                    <h2 id="score">0</h2>
-                </div>
-            </div>
             <div class="row">
                 <div class="game_controller container-fluid col-xs-12">
                     <div class="row">
