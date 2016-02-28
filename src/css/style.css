@@ -11,7 +11,7 @@ body {
 }
 header {
   color: white;
-  padding: 1rem;
+  padding: 4px;
   font-size: 2rem;
 }
 header .game_buttons {
@@ -27,7 +27,7 @@ header .game_buttons button {
   border: none;
 }
 section {
-  padding: 20px;
+  padding: 0 20px;
 }
 .board {
   box-sizing: content-box;
