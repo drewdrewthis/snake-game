@@ -27,6 +27,7 @@
     "grunt-karma": "^0.12.1",
     "grunt-processhtml": "^0.3.13",
     "jasmine-core": "^2.4.1",
+    "jquery-mobile": "^1.4.1",
     "jshint-stylish": "latest",
     "karma": "^0.13.21",
     "karma-chrome-launcher": "~0.1.2",

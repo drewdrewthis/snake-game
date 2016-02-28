@@ -159,7 +159,7 @@ $(document).ready(function() {
 	setup();
 
 	// Set button click functions
-	$('#start_stop').on('click', function() {
+	$('#start_stop').on('tap', function() {
 		if ($(this).text() == "Pause") {
 			pauseGame();
 			return;
@@ -175,34 +175,34 @@ $(document).ready(function() {
 			return;
 		}
 	});
-	$('#reset').on('click', function() {
+	$('#reset').on('tap', function() {
 		$('#start_stop').text("Start");
 		setup();
 	});
-	$('#more_frogs').on('click', function() {
+	$('#more_frogs').on('tap', function() {
 		makeFruits();
 	});
 
 	// Game controller 
-	$('#left').on('click', function() {
+	$('#left').on('tap', function() {
 		if (direction != "right") {
 			direction = "left";
 			console.log('left');
 		}
 	});
-	$('#up').on('click', function() {
+	$('#up').on('tap', function() {
 		if (direction != "down") {
 			direction = "up";
 			console.log('up');
 		}
 	});
-	$('#right').on('click', function() {
+	$('#right').on('tap', function() {
 		if (direction != "left") {
 			direction = "right";
 			console.log('right');
 		}
 	});
-	$('#down').on('click', function() {
+	$('#down').on('tap', function() {
 		if (direction != "up") {
 			direction = "down";
 			console.log('down');
