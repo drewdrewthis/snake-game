@@ -32,12 +32,17 @@
 <body>
     <header id="header" class="container-fluid">
         <div class="row">
-            <div class="col-xs-8">
-                <h1 class='title'>Frog Is Happy</h1>
-            </div>
             <div class="col-xs-4">
-                <div class="game_info col-xs-3">
-                    <span>Score</span><span id="score">0</span>
+                <div class="game_info">
+                    <span class="title">Frog Is Happy</span>
+                    <span>Score: </span><span id="score">0</span>
+                </div>
+            </div>
+            <div class="col-xs-8">
+                <div class="game_buttons">
+                    <button id="start_stop" class="btn-primary ui-btn ui-shadow ui-corner-all">Start</button>
+                    <button id="reset" class="btn-warning ui-btn ui-shadow ui-corner-all">Reset</button>
+                    <button id="more_frogs" class="btn-danger ui-btn ui-shadow ui-corner-all">More Frogs!</button>
                 </div>
             </div>
         </div>
@@ -48,11 +53,6 @@
             <div class="board"></div>
         </div>
         <div id="legend" class="right_panel col-sm-4 container-fluid col-xs-12">
-            <div class="row game_buttons">
-                <button id="start_stop" class="btn-primary btn-lg col-xs-3">Start</button>
-                <button id="reset" class="btn-warning btn-lg col-xs-3">Reset</button>
-                <button id="more_frogs" class="btn-danger btn-lg col-xs-3">More Frogs!</button>
-            </div>
             <div class="row">
                 <div class="game_controller container-fluid col-xs-12">
                     <div class="row">
