@@ -128,13 +128,22 @@ section {
   background: url('../images/snake-graphics_02.png');
 }
 .board .snake.snake-body-1 {
-  background: url('../images/snake-graphics_03.png');
-}
-.board .snake.snake-body-main {
   background: url('../images/snake-graphics_04.png');
 }
+.board .snake.snake-body-main {
+  background: url('../images/snake-graphics_07.png');
+}
 .board .snake.snake-tail {
+  background: url('../images/snake-graphics_10.png');
+}
+.board .snake .corner.snake-corner {
+  background: url('../images/snake-graphics_08.png');
+}
+.board .snake .corner.snake-corner-out {
   background: url('../images/snake-graphics_05.png');
+}
+.board .snake .corner.snake-corner-tail {
+  background: url('../images/snake-graphics_09.png');
 }
 .board .fruit {
   background: red;
@@ -151,6 +160,14 @@ section {
   font-size: 2rem;
 }
 #legend .game_controller .pressed {
+  border-style: inset;
+  background: #D9534F;
+  color: white;
+}
+#legend .game_controller #left:active,
+#legend .game_controller #right:active,
+#legend .game_controller #up:active,
+#legend .game_controller #down:active {
   border-style: inset;
   background: #D9534F;
   color: white;

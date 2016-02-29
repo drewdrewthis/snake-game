@@ -35,44 +35,58 @@ section {
     padding: 0 20px;
 }
 
-.rotate(horizontal; @degrees) {
+.rotate(horizontal;
+@degrees) {
     &.flip {
-            -moz-transform: scaleX(-1) rotate(@degrees);
-            -o-transform: scaleX(-1) rotate(@degrees);
-            -webkit-transform: scaleX(-1) rotate(@degrees);
-            transform: scaleX(-1) rotate(@degrees);
-            filter: FlipH;
-            -ms-filter: "FlipH";
+        -moz-transform: scaleX(-1) rotate(@degrees);
+        -o-transform: scaleX(-1) rotate(@degrees);
+        -webkit-transform: scaleX(-1) rotate(@degrees);
+        transform: scaleX(-1) rotate(@degrees);
+        filter: FlipH;
+        -ms-filter: "FlipH";
     }
 }
-.rotate(vertical; @degrees) {
-    &.flip {
-            -moz-transform: scaleY(-1) rotate(@degrees);
-            -o-transform: scaleY(-1) rotate(@degrees);
-            -webkit-transform: scaleY(-1) rotate(@degrees);
-            transform: scaleY(-1) rotate(@degrees);
-            filter: FlipV;
-            -ms-filter: "FlipV";
-    }
-}
-.rotate(@_; @degrees) {
 
+.rotate(vertical;
+@degrees) {
+    &.flip {
+        -moz-transform: scaleY(-1) rotate(@degrees);
+        -o-transform: scaleY(-1) rotate(@degrees);
+        -webkit-transform: scaleY(-1) rotate(@degrees);
+        transform: scaleY(-1) rotate(@degrees);
+        filter: FlipV;
+        -ms-filter: "FlipV";
+    }
+}
+
+.rotate(@_;
+@degrees) {
     -o-transform: rotate(@degrees);
-    -ms-transform: rotate(@degrees); /* IE 9 */
-    -webkit-transform: rotate(@degrees); /* Chrome, Safari, Opera */
+    -ms-transform: rotate(@degrees);
+    /* IE 9 */
+    -webkit-transform: rotate(@degrees);
+    /* Chrome, Safari, Opera */
     transform: rotate(@degrees);
 }
-.right{
-    .rotate(vertical; 90deg);
+
+.right {
+    .rotate(vertical;
+    90deg);
 }
-.down{
-    .rotate(horizontal; 180deg);
+
+.down {
+    .rotate(horizontal;
+    180deg);
 }
-.left{
-    .rotate(vertical; -90deg);
+
+.left {
+    .rotate(vertical;
+    -90deg);
 }
+
 .up {
-    .rotate(horizontal; 0deg);
+    .rotate(horizontal;
+    0deg);
 }
 
 .board {
@@ -111,13 +125,24 @@ section {
             background: url('../images/snake-graphics_02.png');
         }
         &.snake-body-1 {
-            background: url('../images/snake-graphics_03.png');
-        }
-        &.snake-body-main {
             background: url('../images/snake-graphics_04.png');
         }
+        &.snake-body-main {
+            background: url('../images/snake-graphics_07.png');
+        }
         &.snake-tail {
-            background: url('../images/snake-graphics_05.png');
+            background: url('../images/snake-graphics_10.png');
+        }
+        .corner {
+            &.snake-corner {
+                background: url('../images/snake-graphics_08.png');
+            }
+            &.snake-corner-out {
+                background: url('../images/snake-graphics_05.png');
+            }
+            &.snake-corner-tail {
+                background: url('../images/snake-graphics_09.png');
+            }
         }
     }
     .fruit {
@@ -141,8 +166,15 @@ section {
             background: #D9534F;
             color: white;
         }
+        #left, #right, #up, #down {
+            &:active {
+                .pressed;
+            }
+        }
     }
 }
+
+
 
 @media screen and (min-width: 768px) {
     .game_buttons {

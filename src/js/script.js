@@ -1,5 +1,6 @@
 var direction, snake, head, paused, score;
-var isFlip = true;
+var isFlip = true,
+	isTurn = false;
 var bd = 25; // This is the variable that determines the number of quadrants
 
 // Takes coordinates and returns the quadrant 
@@ -25,10 +26,10 @@ function setup() {
 	paused = true;
 	direction = "right";
 	snake = [
-		[~~(bd/2)-3, ~~(bd/2)],
-		[~~(bd/2)-2, ~~(bd/2)],
-		[~~(bd/2)-1, ~~(bd/2)],
-		[~~(bd/2), ~~(bd/2)]
+		[~~(bd / 2) - 3, ~~(bd / 2)],
+		[~~(bd / 2) - 2, ~~(bd / 2)],
+		[~~(bd / 2) - 1, ~~(bd / 2)],
+		[~~(bd / 2), ~~(bd / 2)]
 	];
 	head = snake.length - 1;
 
@@ -41,9 +42,9 @@ function setup() {
 	makeFruits();
 	quad(snake[head]).addClass("snake snake-head").addClass(direction);
 	// Give new head position snake class
-	quad(snake[head-1]).addClass("snake snake-body-1").addClass(direction);
+	quad(snake[head - 1]).addClass("snake snake-body-1").addClass(direction);
 	// Give new head position snake class
-	quad(snake[head-2]).addClass("snake snake-body-main").addClass(direction);
+	quad(snake[head - 2]).addClass("snake snake-body-main").addClass(direction);
 	// Give new head position snake class
 	quad(snake[0]).addClass("snake snake-tail").addClass(direction);
 }
@@ -105,7 +106,6 @@ function progress_snake(snake) {
 	var new_pos = [x, y];
 
 	// "Hypothetically" moves the head one space ahead.
-
 	switch (direction) {
 		case "left":
 			new_pos[0]--;
@@ -154,14 +154,14 @@ function progress_snake(snake) {
 			// Give new head position snake class
 			quad(snake[head]).removeClass().addClass("quadrant snake snake-head").addClass(direction);
 			// Give new head position snake class
-			quad(snake[head-1]).addClass("snake snake-body-1").removeClass("snake-head");
+			quad(snake[head - 1]).addClass("snake snake-body-1").removeClass("snake-head");
 			// Give new head position snake class
-			quad(snake[head-2]).addClass("snake snake-body-main").removeClass("snake-body-1").toggleClass("flip");
+			quad(snake[head - 2]).addClass("snake snake-body-main").removeClass("snake-body-1").toggleClass("flip");
 			// Give new head position snake class
 			quad(snake[0]).addClass("snake snake-tail").removeClass("snake-body-main").toggleClass("flip");
 
-			if(isFlip) {
-				quad(snake[head],snake[head-1],snake[head-2],snake[0]).toggleClass("flip");
+			if (isFlip) {
+				quad(snake[head], snake[head - 1], snake[head - 2], snake[0]).toggleClass("flip");
 			}
 
 			isFlip = !isFlip;
@@ -176,6 +176,34 @@ function progress_snake(snake) {
 
 }
 
+function goUp() {
+	if (direction != "down") {
+		direction = "up";
+		console.log('up');
+	}
+}
+
+function goDown() {
+	if (direction != "up") {
+		direction = "down";
+		console.log('down');
+	}
+}
+
+function goLeft() {
+	if (direction != "right") {
+		direction = "left";
+		console.log('left');
+	}
+}
+
+function goRight() {
+	if (direction != "left") {
+		direction = "right";
+		console.log('right');
+	}
+}
+
 // Run the game
 $(document).ready(function() {
 
@@ -184,7 +212,6 @@ $(document).ready(function() {
 	window.addEventListener("resize", function() {
 		$('.board').css('height', $('.board').width());
 	}, false);
-	
 
 	// Set button click functions
 	$('#start_stop').on('tap', function() {
@@ -213,28 +240,16 @@ $(document).ready(function() {
 
 	// Game controller 
 	$('#left').on('tap', function() {
-		if (direction != "right") {
-			direction = "left";
-			console.log('left');
-		}
+		goLeft();
 	});
 	$('#up').on('tap', function() {
-		if (direction != "down") {
-			direction = "up";
-			console.log('up');
-		}
+		goUp();
 	});
 	$('#right').on('tap', function() {
-		if (direction != "left") {
-			direction = "right";
-			console.log('right');
-		}
+		goRight();
 	});
 	$('#down').on('tap', function() {
-		if (direction != "up") {
-			direction = "down";
-			console.log('down');
-		}
+		goDown();
 	});
 
 });
@@ -243,35 +258,23 @@ $(document).ready(function() {
 $(document).keydown(function(e) {
 	switch (e.which) {
 		case 37: // left
-			if (direction != "right") {
-				direction = "left";
-				$('#left').addClass('pressed');
-				//console.log('left');
-			}
+			goLeft();
+			$('#left').addClass('pressed');
 			break;
 
 		case 38: // up
-			if (direction != "down") {
-				direction = "up";
-				$('#up').addClass('pressed');
-				//console.log('up');
-			}
+			goUp();
+			$('#up').addClass('pressed');			
 			break;
 
 		case 39: // right
-			if (direction != "left") {
-				direction = "right";
-				$('#right').addClass('pressed');
-				//console.log('right');
-			}
+			goRight();
+			$('#right').addClass('pressed');	
 			break;
 
 		case 40: // down
-			if (direction != "up") {
-				direction = "down";
-				$('#down').addClass('pressed');
-				//console.log('down');
-			}
+			goDown();
+			$('#down').addClass('pressed');	
 			break;
 
 		case 80: // p
@@ -292,7 +295,6 @@ $(document).keyup(function(e) {
 		case 37: // left
 
 			$('#left').removeClass('pressed');
-			console.log('up');
 			break;
 
 		case 38: // up
