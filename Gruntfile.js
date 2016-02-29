@@ -12,7 +12,7 @@ module.exports = function(grunt) {
 
 		processhtml: {
 			options: {
-				
+
 			},
 			dist: {
 				files: {
@@ -70,16 +70,28 @@ module.exports = function(grunt) {
 				}
 			}
 		},
-		reload: {
-			port: 8080,
-			proxy: {
-				host: 'localhost',
+		imagemin: { // Task 
+			options: { // Target options 
+				optimizationLevel: 3
+			},
+			dynamic: { // Another target 
+				files: [{
+					expand: true, // Enable dynamic expansion 
+					cwd: 'src/images', // Src matches are relative to this path 
+					src: ['**/*.{png,jpg,gif}'], // Actual patterns to match 
+					dest: 'dist/images/' // Destination path prefix 
+				}]
 			}
 		},
 		watch: {
 			index: {
 				files: ['index.html'],
 				tasks: ['processhtml']
+			},
+			// for images
+			img: {
+				files: ['src/images/**/*.{png,jpg,gif}'],
+				tasks: ['newer:imagemin']
 			},
 			// for stylesheets, watch css and less files 
 			// only run less and cssmin 
@@ -99,7 +111,7 @@ module.exports = function(grunt) {
 		}
 	});
 
-	grunt.registerTask('default', ['processhtml','jshint', 'uglify', 'cssmin', 'less']);
+	grunt.registerTask('default', ['newer:imagemin', 'processhtml', 'jshint', 'uglify', 'cssmin', 'less']);
 	grunt.registerTask('test', ['karma']);
 
 	// ===========================================================================
@@ -114,4 +126,6 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-karma');
 	grunt.loadNpmTasks('grunt-processhtml');
+	grunt.loadNpmTasks('grunt-newer');
+	grunt.loadNpmTasks('grunt-contrib-imagemin');
 };
