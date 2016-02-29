@@ -1,4 +1,6 @@
 var direction, snake, head, paused, score;
+var isFlip = true;
+var bd = 25; // This is the variable that determines the number of quadrants
 
 // Takes coordinates and returns the quadrant 
 function quad(coord) {
@@ -7,8 +9,8 @@ function quad(coord) {
 
 // Randomly place a piece of fruit on the board
 function makeFruits() {
-	var x = Math.floor(Math.random() * (49 - 0)) + 1;
-	var y = Math.floor(Math.random() * (49 - 0)) + 1;
+	var x = Math.floor(Math.random() * (bd - 1 - 0)) + 1;
+	var y = Math.floor(Math.random() * (bd - 1 - 0)) + 1;
 
 	quad([x, y]).addClass('fruit');
 	console.log("New Fruit: " + x + "," + y);
@@ -23,18 +25,27 @@ function setup() {
 	paused = true;
 	direction = "right";
 	snake = [
-		[24, 24]
+		[~~(bd/2)-3, ~~(bd/2)],
+		[~~(bd/2)-2, ~~(bd/2)],
+		[~~(bd/2)-1, ~~(bd/2)],
+		[~~(bd/2), ~~(bd/2)]
 	];
 	head = snake.length - 1;
 
 	// Build board quadrants
-	for (var y = 0; y < 50; y++) {
-		for (var x = 0; x < 50; x++) {
+	for (var y = 0; y < bd; y++) {
+		for (var x = 0; x < bd; x++) {
 			$('.board').append('<div class="quadrant" data-xcoord="' + x + '" data-ycoord="' + y + '"></div>');
 		}
 	}
 	makeFruits();
-	quad(snake[0]).addClass("snake");
+	quad(snake[head]).addClass("snake snake-head").addClass(direction);
+	// Give new head position snake class
+	quad(snake[head-1]).addClass("snake snake-body-1").addClass(direction);
+	// Give new head position snake class
+	quad(snake[head-2]).addClass("snake snake-body-main").addClass(direction);
+	// Give new head position snake class
+	quad(snake[0]).addClass("snake snake-tail").addClass(direction);
 }
 
 function pauseGame() {
@@ -58,7 +69,7 @@ function isOver(coord) {
 		return true;
 	}
 
-	if (coord[0] >= 50 || coord[1] >= 50 || coord[0] < 0 || coord[1] < 0) {
+	if (coord[0] >= bd || coord[1] >= bd || coord[0] < 0 || coord[1] < 0) {
 		console.log("Over! Crashed into the wall! " + coord);
 		return true;
 	} else {
@@ -129,7 +140,7 @@ function progress_snake(snake) {
 			} else {
 
 				// Remove tail
-				quad(snake[0]).removeClass("snake");
+				quad(snake[0]).removeClass().addClass('quadrant');
 
 				// Move each snake coordinate up one place in snake array
 				for (var i = 0; i < snake.length - 1; i++) {
@@ -141,7 +152,19 @@ function progress_snake(snake) {
 			}
 
 			// Give new head position snake class
-			quad(snake[head]).addClass("snake");
+			quad(snake[head]).removeClass().addClass("quadrant snake snake-head").addClass(direction);
+			// Give new head position snake class
+			quad(snake[head-1]).addClass("snake snake-body-1").removeClass("snake-head");
+			// Give new head position snake class
+			quad(snake[head-2]).addClass("snake snake-body-main").removeClass("snake-body-1").toggleClass("flip");
+			// Give new head position snake class
+			quad(snake[0]).addClass("snake snake-tail").removeClass("snake-body-main").toggleClass("flip");
+
+			if(isFlip) {
+				quad(snake[head],snake[head-1],snake[head-2],snake[0]).toggleClass("flip");
+			}
+
+			isFlip = !isFlip;
 
 			// Goes through the cycles again if not paused
 			if (!paused) {
@@ -252,7 +275,8 @@ $(document).keydown(function(e) {
 			break;
 
 		case 80: // p
-		case 27: //escape
+		case 27: // escape
+		case 32: // space
 			pauseGame();
 			break;
 

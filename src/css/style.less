@@ -35,6 +35,46 @@ section {
     padding: 0 20px;
 }
 
+.rotate(horizontal; @degrees) {
+    &.flip {
+            -moz-transform: scaleX(-1) rotate(@degrees);
+            -o-transform: scaleX(-1) rotate(@degrees);
+            -webkit-transform: scaleX(-1) rotate(@degrees);
+            transform: scaleX(-1) rotate(@degrees);
+            filter: FlipH;
+            -ms-filter: "FlipH";
+    }
+}
+.rotate(vertical; @degrees) {
+    &.flip {
+            -moz-transform: scaleY(-1) rotate(@degrees);
+            -o-transform: scaleY(-1) rotate(@degrees);
+            -webkit-transform: scaleY(-1) rotate(@degrees);
+            transform: scaleY(-1) rotate(@degrees);
+            filter: FlipV;
+            -ms-filter: "FlipV";
+    }
+}
+.rotate(@_; @degrees) {
+
+    -o-transform: rotate(@degrees);
+    -ms-transform: rotate(@degrees); /* IE 9 */
+    -webkit-transform: rotate(@degrees); /* Chrome, Safari, Opera */
+    transform: rotate(@degrees);
+}
+.right{
+    .rotate(vertical; 90deg);
+}
+.down{
+    .rotate(horizontal; 180deg);
+}
+.left{
+    .rotate(vertical; -90deg);
+}
+.up {
+    .rotate(horizontal; 0deg);
+}
+
 .board {
     box-sizing: content-box;
     background: green;
@@ -43,7 +83,7 @@ section {
     border: 3px double white;
     margin: auto;
     padding: 0;
-    &:before {
+    /*&:before {
         box-shadow: inset 0 0 41px 6px rgba(0, 0, 0, 0.75);
         content: '';
         position: absolute;
@@ -51,12 +91,12 @@ section {
         right: 0;
         width: 96%;
         height: 99%;
-    }
+    }*/
     .quadrant {
         //border: 1px solid grey;
         box-sizing: border-box;
-        width: 2%;
-        height: 2%;
+        width: 4%;
+        height: 4%;
         float: left;
         margin: 0;
         padding: 0;
@@ -65,7 +105,20 @@ section {
     }
     .snake {
         background: orange;
-        border-radius: 100%;
+        //border-radius: 100%;
+        background-size: cover!important;
+        &.snake-head {
+            background: url('../images/snake-graphics_02.png');
+        }
+        &.snake-body-1 {
+            background: url('../images/snake-graphics_03.png');
+        }
+        &.snake-body-main {
+            background: url('../images/snake-graphics_04.png');
+        }
+        &.snake-tail {
+            background: url('../images/snake-graphics_05.png');
+        }
     }
     .fruit {
         background: red;
