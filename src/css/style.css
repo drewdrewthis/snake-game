@@ -191,3 +191,7 @@ section {
     height: 5rem;
   }
 }
+.hidden,
+ui-loader {
+  display: none;
+}

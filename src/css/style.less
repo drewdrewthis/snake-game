@@ -166,15 +166,16 @@ section {
             background: #D9534F;
             color: white;
         }
-        #left, #right, #up, #down {
+        #left,
+        #right,
+        #up,
+        #down {
             &:active {
                 .pressed;
             }
         }
     }
 }
-
-
 
 @media screen and (min-width: 768px) {
     .game_buttons {
@@ -201,4 +202,8 @@ section {
             height: 5rem;
         }
     }
+}
+
+.hidden, ui-loader {
+    display: none;
 }
