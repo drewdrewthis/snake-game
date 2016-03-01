@@ -136,14 +136,14 @@ section {
 .board .snake.snake-tail {
   background: url('../images/snake-graphics_10.png');
 }
-.board .snake .corner.snake-corner {
-  background: url('../images/snake-graphics_08.png');
-}
-.board .snake .corner.snake-corner-out {
+.board .snake.snake-corner.main {
   background: url('../images/snake-graphics_05.png');
 }
-.board .snake .corner.snake-corner-tail {
-  background: url('../images/snake-graphics_09.png');
+.board .snake.snake-corner.out {
+  background: url('../images/snake-graphics_08.png');
+}
+.board .snake.snake-corner.tail {
+  background: url('../images/snake-graphics_07.png');
 }
 .board .fruit {
   background: red;

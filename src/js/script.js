@@ -1,6 +1,7 @@
-var direction, snake, head, paused, score;
+var direction, snake, head, paused, score, prev_direction;
 var isFlip = true,
 	isTurn = false;
+	isCorner = false;
 var bd = 25; // This is the variable that determines the number of quadrants
 
 // Takes coordinates and returns the quadrant 
@@ -10,8 +11,8 @@ function quad(coord) {
 
 // Randomly place a piece of fruit on the board
 function makeFruits() {
-	var x = Math.floor(Math.random() * (bd - 1 - 0)) + 1;
-	var y = Math.floor(Math.random() * (bd - 1 - 0)) + 1;
+	var x = Math.floor(Math.random() * ((bd - 1) - 0)) + 1;
+	var y = Math.floor(Math.random() * ((bd - 1) - 0)) + 1;
 
 	quad([x, y]).addClass('fruit');
 	console.log("New Fruit: " + x + "," + y);
@@ -153,10 +154,19 @@ function progress_snake(snake) {
 
 			// Give new head position snake class
 			quad(snake[head]).removeClass().addClass("quadrant snake snake-head").addClass(direction);
-			// Give new head position snake class
-			quad(snake[head - 1]).addClass("snake snake-body-1").removeClass("snake-head");
-			// Give new head position snake class
-			quad(snake[head - 2]).addClass("snake snake-body-main").removeClass("snake-body-1").toggleClass("flip");
+
+			if (!(quad(snake[head - 1])).hasClass('snake-corner')) {
+				// Give give second position new snake class if not already a corner
+				quad(snake[head - 1]).addClass("snake snake-body-1").removeClass("snake-head");
+			}
+			if (!(quad(snake[head - 2])).hasClass('snake-corner')) {
+				// Give third position snake class snake class if not a corner
+				quad(snake[head - 2]).addClass("snake snake-body-main").removeClass("snake-body-1").toggleClass("flip");
+			}
+			else {
+				// If it is a corner....LEFT OFF HERE.
+				quad(snake[head - 2]).addClass("snake snake-body-main").removeClass("snake-body-1").toggleClass("flip");
+			}
 			// Give new head position snake class
 			quad(snake[0]).addClass("snake snake-tail").removeClass("snake-body-main").toggleClass("flip");
 
@@ -166,41 +176,78 @@ function progress_snake(snake) {
 
 			isFlip = !isFlip;
 
+			// Make quadrant behind head a corner
+			if (isCorner) {
+				console.log(prev_direction + " : " + direction);
+				if ((prev_direction == "up" && direction == "right") ||
+					(prev_direction == "left" && direction == "down")) {
+					quad(snake[head - 1]).removeClass().addClass("quadrant snake snake-corner main");
+				}
+				if ((prev_direction == "up" && direction == "left") ||
+					(prev_direction == "right" && direction == "down")) {
+					quad(snake[head - 1]).removeClass().addClass("quadrant snake snake-corner main");
+					// Rotate 90
+					quad(snake[head - 1]).addClass('right');
+				}
+				if ((prev_direction == "down" && direction == "right") ||
+					(prev_direction == "left" && direction == "up")) {
+					quad(snake[head - 1]).removeClass().addClass("quadrant snake snake-corner main");
+					// Rotate -90
+					quad(snake[head - 1]).addClass('left');
+				}
+				if ((prev_direction == "down" && direction == "left") ||
+					(prev_direction == "right" && direction == "up")) {
+					quad(snake[head - 1]).removeClass().addClass("quadrant snake snake-corner main");
+					// Rotate 180
+					quad(snake[head - 1]).addClass('down');
+				}
+
+				// Reset corner and prev_direction to avoid loop.
+				isCorner = false;
+				prev_direction = direction;
+			}
+
+			if (prev_direction != direction) {
+				isCorner = true;
+			}
+
 			// Goes through the cycles again if not paused
 			if (!paused) {
 				progress_snake(snake);
 			}
 		}
-
 	}, 100);
-
 }
 
 function goUp() {
 	if (direction != "down") {
+		prev_direction = direction;
 		direction = "up";
-		console.log('up');
+		//console.log('up');
 	}
 }
 
 function goDown() {
 	if (direction != "up") {
+		prev_direction = direction;
 		direction = "down";
-		console.log('down');
+		//console.log('down');
 	}
 }
 
 function goLeft() {
 	if (direction != "right") {
+		prev_direction = direction;
 		direction = "left";
-		console.log('left');
+		//console.log('left');
 	}
 }
 
 function goRight() {
 	if (direction != "left") {
+		prev_direction = direction;
 		direction = "right";
-		console.log('right');
+		//console.log('right');
 	}
 }
 
@@ -264,17 +311,17 @@ $(document).keydown(function(e) {
 
 		case 38: // up
 			goUp();
-			$('#up').addClass('pressed');			
+			$('#up').addClass('pressed');
 			break;
 
 		case 39: // right
 			goRight();
-			$('#right').addClass('pressed');	
+			$('#right').addClass('pressed');
 			break;
 
 		case 40: // down
 			goDown();
-			$('#down').addClass('pressed');	
+			$('#down').addClass('pressed');
 			break;
 
 		case 80: // p
