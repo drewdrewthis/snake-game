@@ -1,8 +1,8 @@
-var direction, snake, head, paused, score, prev_direction;
+var direction, snake, head, paused, score, prev_direction, game_speed;
 var isFlip = true,
 	isTurn = false;
 isCorner = false;
-var bd = 25; // This is the variable that determines the number of quadrants
+var bd = 15; // This is the variable that determines the number of quadrants of one side
 
 // Takes coordinates and returns the quadrant 
 function quad(coord) {
@@ -27,11 +27,13 @@ function makeFruits() {
 // Set up the board and initialize the game
 function setup() {
 	$('.board').html('');
-	$('.board').css('height', $('.board').width());
+	var boardW = $('.board').width();
+	$('.board').css('height', boardW);
 	score = 0;
 	$('#score').text(score);
 	paused = true;
 	direction = "right";
+	game_speed = 150;
 	prev_direction = direction;
 	snake = [
 		[~~(bd / 2) - 3, ~~(bd / 2)],
@@ -47,6 +49,10 @@ function setup() {
 			$('.board').append('<div class="quadrant" data-xcoord="' + x + '" data-ycoord="' + y + '"></div>');
 		}
 	}
+	$('.quadrant').css({
+		width: (boardW/bd/boardW*100)+"%",
+		height: (boardW/bd/boardW*100)+"%"
+	});
 	makeFruits();
 	quad(snake[head]).addClass("snake snake-head").addClass(direction);
 	// Give new head position snake class
@@ -60,7 +66,7 @@ function setup() {
 function pauseGame() {
 	if (!paused) {
 		paused = true;
-		$('#start_stop').text("Resume");
+		$('#start_stop').html("Resume");
 
 	} else {
 		progress_snake(snake);
@@ -237,7 +243,7 @@ function progress_snake(snake) {
 				progress_snake(snake);
 			}
 		}
-	}, 100);
+	}, game_speed);
 }
 
 function goUp() {
