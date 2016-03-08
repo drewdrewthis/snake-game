@@ -340,9 +340,18 @@ $(document).keydown(function(e) {
 			break;
 
 		case 80: // p
+		case 83: // s
 		case 27: // escape
 		case 32: // space
 			pauseGame();
+			break;
+
+		case 84: // space
+			setup();
+			break;
+
+		case 77: // m
+			makeFruits();
 			break;
 
 		default:

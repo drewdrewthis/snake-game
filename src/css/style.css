@@ -21,13 +21,13 @@ header {
   text-shadow: 0 0.3px 0.5px black;
 }
 header .title {
-  font-size: 2rem;
+  font-size: 100%;
 }
 header .game_buttons {
   text-align: right;
 }
 header .game_buttons button {
-  font-size: 1rem;
+  font-size: 100%;
   border-radius: 100%;
   height: 75px;
   width: 75px;
@@ -37,7 +37,10 @@ header .game_buttons button {
   border: none;
   text-shadow: 0 0.3px 0.5px black;
 }
-header .game_buttons button::first-letter {
+header .game_buttons button:not(#reset)::first-letter {
+  text-decoration: underline;
+}
+header .game_buttons button .underline {
   text-decoration: underline;
 }
 section {
@@ -540,25 +543,33 @@ section {
   background: #D9534F;
   color: white;
 }
-@media screen and (min-width: 768px) {
-  .game_buttons button {
-    width: 100%;
-    max-width: 300px;
-  }
+/*@media screen and (min-width: 768px) {
+    .game_buttons {
+        button {
+            width: 100%;
+            max-width: 300px;
+        }
+    }
 }
+
 @media screen and (max-width: 768px) {
-  header {
-    font-size: 1rem;
-  }
-  header .game_buttons button {
-    height: 40px;
-    width: 40px;
-    border-radius: 100%;
-  }
-  .game_controller button {
-    height: 5rem;
-  }
+    header {
+        font-size: 100%;
+        .game_buttons {
+            button {
+                height: 40px;
+                width: 40px;
+                border-radius: 100%;
+            }
+        }
+    }
+    .game_controller {
+        button {
+            height: 5rem;
+        }
+    }
 }
+*/
 .hidden,
 .ui-loader {
   display: none;
