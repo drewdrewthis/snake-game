@@ -43,6 +43,10 @@ header .game_buttons button:not(#reset)::first-letter {
 header .game_buttons button .underline {
   text-decoration: underline;
 }
+header .game_buttons button#options {
+  background: #5B9B5B;
+  font-size: 150%;
+}
 section {
   padding: 0 20px;
 }
@@ -543,33 +547,29 @@ section {
   background: #D9534F;
   color: white;
 }
-/*@media screen and (min-width: 768px) {
-    .game_buttons {
-        button {
-            width: 100%;
-            max-width: 300px;
-        }
-    }
-}
-
 @media screen and (max-width: 768px) {
-    header {
-        font-size: 100%;
-        .game_buttons {
-            button {
-                height: 40px;
-                width: 40px;
-                border-radius: 100%;
-            }
-        }
-    }
-    .game_controller {
-        button {
-            height: 5rem;
-        }
-    }
+  header {
+    font-size: 100%;
+  }
+  header .game_buttons {
+    padding-right: 0;
+  }
+  header .game_buttons button {
+    height: 40px;
+    width: 40px;
+    border-radius: 100%;
+    margin: 0;
+  }
+  header .game_buttons button::first-letter {
+    text-decoration: none!important;
+  }
+  .game_controller button {
+    height: 5rem;
+  }
+  .no-mobile {
+    display: none;
+  }
 }
-*/
 .hidden,
 .ui-loader {
   display: none;
