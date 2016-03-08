@@ -3,23 +3,42 @@
     //border: 1px red solid;
 }
 
+@my-font: 'Seymour One', sans-serif;
+
 :root {
-    background: black;
+    background-color: #38566F;
+    box-shadow: inset 0 -52px 500px 4px black;
     color: white;
-    font-family: 'Arial';
+    font-family: @my-font;
 }
 
 body {
-    background-color: transparent;
+    background: repeating-linear-gradient(
+      45deg,
+      rgba(0, 0, 0, 0.2),
+      rgba(0, 0, 0, 0.2) 10px,
+      rgba(0, 0, 0, 0.3) 10px,
+      rgba(0, 0, 0, 0.3) 20px
+    ),
+    url(http://s3-us-west-2.amazonaws.com/s.cdpn.io/3/old_map_@2X.png);
+    max-width: 600px;
+    box-shadow: 0 0 43px 17px black;
+    border-left: 10px solid rgba(0, 128, 0, 0.2);
+    border-right: 10px solid rgba(0, 128, 0, 0.2);
 }
 
 header {
     color: white;
-    padding: 4px;
-    font-size: 2rem;
+    padding: 15px 25px;
+    font-family: @my-font;
+    text-shadow: 0 0.3px 0.5px black;
+    .title {
+        font-size: 2rem;
+    }
     .game_buttons {
         text-align: right;
         button {
+            font-size: 1rem;
             border-radius: 100%;
             height: 75px;
             width: 75px;
@@ -27,6 +46,10 @@ header {
             padding: 0;
             vertical-align: top;
             border: none;
+            text-shadow: 0 0.3px 0.5px black;
+            &::first-letter { 
+                text-decoration: underline;
+            }
         }
     }
 }
@@ -111,13 +134,20 @@ section {
 
 .board {
     box-sizing: content-box;
-    background: green;
+   background: linear-gradient(
+     to bottom,
+     #5d9634,
+     #5d9634 50%,
+     #538c2b 50%,
+     #538c2b
+   );
+   background-size: 100% 20px;
     width: 100%;
     max-width: 500px;
     border: 3px double white;
     margin: auto;
     padding: 0;
-    /*&:before {
+    /*:before {
         box-shadow: inset 0 0 41px 6px rgba(0, 0, 0, 0.75);
         content: '';
         position: absolute;
@@ -209,7 +239,8 @@ section {
         padding: 2rem;
         button {
             background: white;
-            border-radius: 10px;
+            border-radius: 30px;
+            height: 46px;
             .fa {
                 font-size: 2rem;
             }
@@ -258,6 +289,6 @@ section {
 }
 
 .hidden,
-ui-loader {
+.ui-loader {
     display: none;
 }
