@@ -1,7 +1,7 @@
 var direction, snake, head, paused, score, prev_direction;
 var isFlip = true,
 	isTurn = false;
-	isCorner = false;
+isCorner = false;
 var bd = 25; // This is the variable that determines the number of quadrants
 
 // Takes coordinates and returns the quadrant 
@@ -26,6 +26,7 @@ function setup() {
 	$('#score').text(score);
 	paused = true;
 	direction = "right";
+	prev_direction = direction;
 	snake = [
 		[~~(bd / 2) - 3, ~~(bd / 2)],
 		[~~(bd / 2) - 2, ~~(bd / 2)],
@@ -43,11 +44,11 @@ function setup() {
 	makeFruits();
 	quad(snake[head]).addClass("snake snake-head").addClass(direction);
 	// Give new head position snake class
-	quad(snake[head - 1]).addClass("snake snake-body-1").addClass(direction);
+	quad(snake[head - 1]).addClass("snake snake-body-1 flip").addClass(direction);
 	// Give new head position snake class
-	quad(snake[head - 2]).addClass("snake snake-body-main").addClass(direction);
+	quad(snake[head - 2]).addClass("snake snake-body-main flip").addClass(direction);
 	// Give new head position snake class
-	quad(snake[0]).addClass("snake snake-tail").addClass(direction);
+	quad(snake[0]).addClass("snake snake-tail flip").addClass(direction);
 }
 
 function pauseGame() {
@@ -88,6 +89,36 @@ function growSnake(new_pos) {
 	head = snake.length - 1;
 }
 
+function makeCorner(coords) {
+	// Make quadrant behind head a corner
+	quad(coords).addClass("snake-corner");
+	console.log(prev_direction + " : " + direction + " " + coords);
+
+	if ((prev_direction == "up" && direction == "right") ||
+		(prev_direction == "left" && direction == "down")) {
+		// Rotate 90
+		quad(coords).addClass('right-corner');
+	}
+	if ((prev_direction == "up" && direction == "left") ||
+		(prev_direction == "right" && direction == "down")) {
+		// Rotate -90
+		quad(coords).addClass('left-corner');
+	}
+	if ((prev_direction == "down" && direction == "right") ||
+		(prev_direction == "left" && direction == "up")) {
+		// Rotate -90
+		quad(coords).addClass('down-right-corner');
+	}
+	if ((prev_direction == "down" && direction == "left") ||
+		(prev_direction == "right" && direction == "up")) {
+		// Rotate 180
+		quad(coords).addClass('down-left-corner');
+	}
+
+	// Reset corner and prev_direction to avoid loop.
+	prev_direction = direction;
+}
+
 // Tests to see if the quadrant the snake entered has fruit
 function isFruit(coord) {
 
@@ -106,7 +137,7 @@ function progress_snake(snake) {
 	var y = snake[head][1];
 	var new_pos = [x, y];
 
-	// "Hypothetically" moves the head one space ahead.
+	// "Hypothetically" moves the head one space ahead in current direction
 	switch (direction) {
 		case "left":
 			new_pos[0]--;
@@ -132,14 +163,14 @@ function progress_snake(snake) {
 		} else {
 
 			if (isFruit(new_pos)) {
-
+				// If new quadrant has a fruit
 				// Remove fruit class and make a new fruit
 				quad(new_pos).removeClass("fruit");
 				makeFruits();
 				growSnake(new_pos);
 
 			} else {
-
+				// If new quadrant has no fruit
 				// Remove tail
 				quad(snake[0]).removeClass().addClass('quadrant');
 
@@ -155,61 +186,45 @@ function progress_snake(snake) {
 			// Give new head position snake class
 			quad(snake[head]).removeClass().addClass("quadrant snake snake-head").addClass(direction);
 
+			// Putting this after the isCorner conditionals makes allows the snake to progress
+			// one space before creating the corner
+			if (prev_direction != direction) {
+				// This commented out line will delay the head turn by one iteration, but messes up the tail
+				// turning at the corner. 
+				//quad(snake[head]).removeClass().addClass("quadrant snake snake-head").addClass(prev_direction);
+				makeCorner(snake[head]);
+			}
+
+			if (isFlip) {
+				// Give first 3 snake quadrants and tail a mirror image from last iteration to maintain S shape
+				quad(snake[head], snake[head - 1], snake[head - 2], snake[0]).toggleClass("flip");
+			}
+
+			// Update rest of body images
 			if (!(quad(snake[head - 1])).hasClass('snake-corner')) {
 				// Give give second position new snake class if not already a corner
 				quad(snake[head - 1]).addClass("snake snake-body-1").removeClass("snake-head");
+			} else {
+				// Add alternate corner class for clean connection to head
+				quad(snake[head]).addClass("alternate-head");
+				quad(snake[head - 1]).removeClass("snake-head");
 			}
 			if (!(quad(snake[head - 2])).hasClass('snake-corner')) {
 				// Give third position snake class snake class if not a corner
 				quad(snake[head - 2]).addClass("snake snake-body-main").removeClass("snake-body-1").toggleClass("flip");
+			} else {
+				// Remove alternate corner class meant just for connection to head
+				quad(snake[head - 1]).removeClass("alternate-head");
 			}
-			else {
-				// If it is a corner....LEFT OFF HERE.
-				quad(snake[head - 2]).addClass("snake snake-body-main").removeClass("snake-body-1").toggleClass("flip");
+			if ((quad(snake[0])).hasClass('snake-corner')) {
+				// Give new tail position tail class
+				quad(snake[0]).addClass("snake snake-tail").removeClass("snake-body-main snake-corner");
+			} else {
+				quad(snake[0]).addClass("snake snake-tail").removeClass("snake-body-main snake-corner").toggleClass("flip");
 			}
-			// Give new head position snake class
-			quad(snake[0]).addClass("snake snake-tail").removeClass("snake-body-main").toggleClass("flip");
 
-			if (isFlip) {
-				quad(snake[head], snake[head - 1], snake[head - 2], snake[0]).toggleClass("flip");
-			}
-
+			// Alternate snake body image
 			isFlip = !isFlip;
-
-			// Make quadrant behind head a corner
-			if (isCorner) {
-				console.log(prev_direction + " : " + direction);
-				if ((prev_direction == "up" && direction == "right") ||
-					(prev_direction == "left" && direction == "down")) {
-					quad(snake[head - 1]).removeClass().addClass("quadrant snake snake-corner main");
-				}
-				if ((prev_direction == "up" && direction == "left") ||
-					(prev_direction == "right" && direction == "down")) {
-					quad(snake[head - 1]).removeClass().addClass("quadrant snake snake-corner main");
-					// Rotate 90
-					quad(snake[head - 1]).addClass('right');
-				}
-				if ((prev_direction == "down" && direction == "right") ||
-					(prev_direction == "left" && direction == "up")) {
-					quad(snake[head - 1]).removeClass().addClass("quadrant snake snake-corner main");
-					// Rotate -90
-					quad(snake[head - 1]).addClass('left');
-				}
-				if ((prev_direction == "down" && direction == "left") ||
-					(prev_direction == "right" && direction == "up")) {
-					quad(snake[head - 1]).removeClass().addClass("quadrant snake snake-corner main");
-					// Rotate 180
-					quad(snake[head - 1]).addClass('down');
-				}
-
-				// Reset corner and prev_direction to avoid loop.
-				isCorner = false;
-				prev_direction = direction;
-			}
-
-			if (prev_direction != direction) {
-				isCorner = true;
-			}
 
 			// Goes through the cycles again if not paused
 			if (!paused) {

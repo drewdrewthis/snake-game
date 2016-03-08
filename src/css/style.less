@@ -35,27 +35,27 @@ section {
     padding: 0 20px;
 }
 
-.rotate(horizontal;
+.rotate(vertical;
 @degrees) {
     &.flip {
         -moz-transform: scaleX(-1) rotate(@degrees);
         -o-transform: scaleX(-1) rotate(@degrees);
         -webkit-transform: scaleX(-1) rotate(@degrees);
         transform: scaleX(-1) rotate(@degrees);
-        filter: FlipH;
-        -ms-filter: "FlipH";
+        filter: flipV;
+        -ms-filter: "FlipV";
     }
 }
 
-.rotate(vertical;
+.rotate(horizontal;
 @degrees) {
     &.flip {
         -moz-transform: scaleY(-1) rotate(@degrees);
         -o-transform: scaleY(-1) rotate(@degrees);
         -webkit-transform: scaleY(-1) rotate(@degrees);
         transform: scaleY(-1) rotate(@degrees);
-        filter: FlipV;
-        -ms-filter: "FlipV";
+        filter: FlipH;
+        -ms-filter: "FlipH";
     }
 }
 
@@ -69,24 +69,44 @@ section {
     transform: rotate(@degrees);
 }
 
-.right {
-    .rotate(vertical;
-    90deg);
+.flipV {
+    -moz-transform: scaleX(-1);
+    -o-transform: scaleX(-1);
+    -webkit-transform: scaleX(-1);
+    transform: scaleX(-1);
+    filter: FlipV;
+    -ms-filter: "FlipV";
 }
 
-.down {
-    .rotate(horizontal;
-    180deg);
+.flipH {
+    -moz-transform: scaleY(-1);
+    -o-transform: scaleY(-1);
+    -webkit-transform: scaleY(-1);
+    transform: scaleY(-1);
+    filter: FlipH;
+    -ms-filter: "FlipH";
 }
 
-.left {
-    .rotate(vertical;
-    -90deg);
-}
+.direction {
+    &.right {
+        .rotate(horizontal;
+        90deg);
+    }
 
-.up {
-    .rotate(horizontal;
-    0deg);
+    &.down {
+        .rotate(vertical;
+        180deg);
+    }
+
+    &.left {
+        .rotate(horizontal;
+        -90deg);
+    }
+
+    &.up {
+        .rotate(vertical;
+        0deg);
+    }
 }
 
 .board {
@@ -121,27 +141,60 @@ section {
         background: orange;
         //border-radius: 100%;
         background-size: cover!important;
-        &.snake-head {
-            background: url('../images/snake-graphics_02.png');
-        }
+        
         &.snake-body-1 {
-            background: url('../images/snake-graphics_04.png');
+            background: url('../images/snake-graphics_head-2.png');
+            .direction;
         }
         &.snake-body-main {
-            background: url('../images/snake-graphics_07.png');
+            background: url('../images/snake-graphics_mid.png');
+            .direction;
         }
         &.snake-tail {
-            background: url('../images/snake-graphics_10.png');
+            background: url('../images/snake-graphics_tail.png');
+            .direction;
         }
         &.snake-corner {
-            &.main {
-                background: url('../images/snake-graphics_05.png');
+            background: url('../images/snake-graphics_corner-1.png');
+            &.left-corner {
+                .rotate(x,
+                0deg);
+                &.flip {
+                    .rotate(vertical;
+                    -90deg);
+                }
             }
-            &.out {
-                background: url('../images/snake-graphics_08.png');
+            &.right-corner {
+                .rotate(x,
+                -90deg);
+                &.flip {
+                    .flipV;
+                }
             }
-            &.tail {
-                background: url('../images/snake-graphics_07.png');
+            &.down-right-corner {
+                .rotate(x,
+                180deg);
+                &.flip {
+                    .rotate(vertical,
+                    90deg);
+                }
+            }
+            &.down-left-corner {
+                .rotate(x,
+                90deg);
+                &.flip {
+                    .flipH;
+                }
+            }
+        }
+        &.snake-head {
+            background: url('../images/snake-graphics_head.png');
+            .direction;
+        }
+        &.alternate-head {
+            background: url('../images/snake-graphics-turning-head.png');
+            &.flip {
+                background: url('../images/snake-graphics-turning-head.png');
             }
         }
     }
@@ -204,6 +257,7 @@ section {
     }
 }
 
-.hidden, ui-loader {
+.hidden,
+ui-loader {
     display: none;
 }

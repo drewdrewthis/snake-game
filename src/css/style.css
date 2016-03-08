@@ -29,7 +29,23 @@ header .game_buttons button {
 section {
   padding: 0 20px;
 }
-.right {
+.flipV {
+  -moz-transform: scaleX(-1);
+  -o-transform: scaleX(-1);
+  -webkit-transform: scaleX(-1);
+  transform: scaleX(-1);
+  filter: FlipV;
+  -ms-filter: "FlipV";
+}
+.flipH {
+  -moz-transform: scaleY(-1);
+  -o-transform: scaleY(-1);
+  -webkit-transform: scaleY(-1);
+  transform: scaleY(-1);
+  filter: FlipH;
+  -ms-filter: "FlipH";
+}
+.direction.right {
   -o-transform: rotate(90deg);
   -ms-transform: rotate(90deg);
   /* IE 9 */
@@ -37,15 +53,15 @@ section {
   /* Chrome, Safari, Opera */
   transform: rotate(90deg);
 }
-.right.flip {
+.direction.right.flip {
   -moz-transform: scaleY(-1) rotate(90deg);
   -o-transform: scaleY(-1) rotate(90deg);
   -webkit-transform: scaleY(-1) rotate(90deg);
   transform: scaleY(-1) rotate(90deg);
-  filter: FlipV;
-  -ms-filter: "FlipV";
+  filter: FlipH;
+  -ms-filter: "FlipH";
 }
-.down {
+.direction.down {
   -o-transform: rotate(180deg);
   -ms-transform: rotate(180deg);
   /* IE 9 */
@@ -53,15 +69,15 @@ section {
   /* Chrome, Safari, Opera */
   transform: rotate(180deg);
 }
-.down.flip {
+.direction.down.flip {
   -moz-transform: scaleX(-1) rotate(180deg);
   -o-transform: scaleX(-1) rotate(180deg);
   -webkit-transform: scaleX(-1) rotate(180deg);
   transform: scaleX(-1) rotate(180deg);
-  filter: FlipH;
-  -ms-filter: "FlipH";
+  filter: flipV;
+  -ms-filter: "FlipV";
 }
-.left {
+.direction.left {
   -o-transform: rotate(-90deg);
   -ms-transform: rotate(-90deg);
   /* IE 9 */
@@ -69,15 +85,15 @@ section {
   /* Chrome, Safari, Opera */
   transform: rotate(-90deg);
 }
-.left.flip {
+.direction.left.flip {
   -moz-transform: scaleY(-1) rotate(-90deg);
   -o-transform: scaleY(-1) rotate(-90deg);
   -webkit-transform: scaleY(-1) rotate(-90deg);
   transform: scaleY(-1) rotate(-90deg);
-  filter: FlipV;
-  -ms-filter: "FlipV";
+  filter: FlipH;
+  -ms-filter: "FlipH";
 }
-.up {
+.direction.up {
   -o-transform: rotate(0deg);
   -ms-transform: rotate(0deg);
   /* IE 9 */
@@ -85,13 +101,13 @@ section {
   /* Chrome, Safari, Opera */
   transform: rotate(0deg);
 }
-.up.flip {
+.direction.up.flip {
   -moz-transform: scaleX(-1) rotate(0deg);
   -o-transform: scaleX(-1) rotate(0deg);
   -webkit-transform: scaleX(-1) rotate(0deg);
   transform: scaleX(-1) rotate(0deg);
-  filter: FlipH;
-  -ms-filter: "FlipH";
+  filter: flipV;
+  -ms-filter: "FlipV";
 }
 .board {
   box-sizing: content-box;
@@ -124,26 +140,362 @@ section {
   background: orange;
   background-size: cover!important;
 }
-.board .snake.snake-head {
-  background: url('../images/snake-graphics_02.png');
-}
 .board .snake.snake-body-1 {
-  background: url('../images/snake-graphics_04.png');
+  background: url('../images/snake-graphics_head-2.png');
+}
+.board .snake.snake-body-1.right {
+  -o-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+  /* IE 9 */
+  -webkit-transform: rotate(90deg);
+  /* Chrome, Safari, Opera */
+  transform: rotate(90deg);
+}
+.board .snake.snake-body-1.right.flip {
+  -moz-transform: scaleY(-1) rotate(90deg);
+  -o-transform: scaleY(-1) rotate(90deg);
+  -webkit-transform: scaleY(-1) rotate(90deg);
+  transform: scaleY(-1) rotate(90deg);
+  filter: FlipH;
+  -ms-filter: "FlipH";
+}
+.board .snake.snake-body-1.down {
+  -o-transform: rotate(180deg);
+  -ms-transform: rotate(180deg);
+  /* IE 9 */
+  -webkit-transform: rotate(180deg);
+  /* Chrome, Safari, Opera */
+  transform: rotate(180deg);
+}
+.board .snake.snake-body-1.down.flip {
+  -moz-transform: scaleX(-1) rotate(180deg);
+  -o-transform: scaleX(-1) rotate(180deg);
+  -webkit-transform: scaleX(-1) rotate(180deg);
+  transform: scaleX(-1) rotate(180deg);
+  filter: flipV;
+  -ms-filter: "FlipV";
+}
+.board .snake.snake-body-1.left {
+  -o-transform: rotate(-90deg);
+  -ms-transform: rotate(-90deg);
+  /* IE 9 */
+  -webkit-transform: rotate(-90deg);
+  /* Chrome, Safari, Opera */
+  transform: rotate(-90deg);
+}
+.board .snake.snake-body-1.left.flip {
+  -moz-transform: scaleY(-1) rotate(-90deg);
+  -o-transform: scaleY(-1) rotate(-90deg);
+  -webkit-transform: scaleY(-1) rotate(-90deg);
+  transform: scaleY(-1) rotate(-90deg);
+  filter: FlipH;
+  -ms-filter: "FlipH";
+}
+.board .snake.snake-body-1.up {
+  -o-transform: rotate(0deg);
+  -ms-transform: rotate(0deg);
+  /* IE 9 */
+  -webkit-transform: rotate(0deg);
+  /* Chrome, Safari, Opera */
+  transform: rotate(0deg);
+}
+.board .snake.snake-body-1.up.flip {
+  -moz-transform: scaleX(-1) rotate(0deg);
+  -o-transform: scaleX(-1) rotate(0deg);
+  -webkit-transform: scaleX(-1) rotate(0deg);
+  transform: scaleX(-1) rotate(0deg);
+  filter: flipV;
+  -ms-filter: "FlipV";
 }
 .board .snake.snake-body-main {
-  background: url('../images/snake-graphics_07.png');
+  background: url('../images/snake-graphics_mid.png');
+}
+.board .snake.snake-body-main.right {
+  -o-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+  /* IE 9 */
+  -webkit-transform: rotate(90deg);
+  /* Chrome, Safari, Opera */
+  transform: rotate(90deg);
+}
+.board .snake.snake-body-main.right.flip {
+  -moz-transform: scaleY(-1) rotate(90deg);
+  -o-transform: scaleY(-1) rotate(90deg);
+  -webkit-transform: scaleY(-1) rotate(90deg);
+  transform: scaleY(-1) rotate(90deg);
+  filter: FlipH;
+  -ms-filter: "FlipH";
+}
+.board .snake.snake-body-main.down {
+  -o-transform: rotate(180deg);
+  -ms-transform: rotate(180deg);
+  /* IE 9 */
+  -webkit-transform: rotate(180deg);
+  /* Chrome, Safari, Opera */
+  transform: rotate(180deg);
+}
+.board .snake.snake-body-main.down.flip {
+  -moz-transform: scaleX(-1) rotate(180deg);
+  -o-transform: scaleX(-1) rotate(180deg);
+  -webkit-transform: scaleX(-1) rotate(180deg);
+  transform: scaleX(-1) rotate(180deg);
+  filter: flipV;
+  -ms-filter: "FlipV";
+}
+.board .snake.snake-body-main.left {
+  -o-transform: rotate(-90deg);
+  -ms-transform: rotate(-90deg);
+  /* IE 9 */
+  -webkit-transform: rotate(-90deg);
+  /* Chrome, Safari, Opera */
+  transform: rotate(-90deg);
+}
+.board .snake.snake-body-main.left.flip {
+  -moz-transform: scaleY(-1) rotate(-90deg);
+  -o-transform: scaleY(-1) rotate(-90deg);
+  -webkit-transform: scaleY(-1) rotate(-90deg);
+  transform: scaleY(-1) rotate(-90deg);
+  filter: FlipH;
+  -ms-filter: "FlipH";
+}
+.board .snake.snake-body-main.up {
+  -o-transform: rotate(0deg);
+  -ms-transform: rotate(0deg);
+  /* IE 9 */
+  -webkit-transform: rotate(0deg);
+  /* Chrome, Safari, Opera */
+  transform: rotate(0deg);
+}
+.board .snake.snake-body-main.up.flip {
+  -moz-transform: scaleX(-1) rotate(0deg);
+  -o-transform: scaleX(-1) rotate(0deg);
+  -webkit-transform: scaleX(-1) rotate(0deg);
+  transform: scaleX(-1) rotate(0deg);
+  filter: flipV;
+  -ms-filter: "FlipV";
 }
 .board .snake.snake-tail {
-  background: url('../images/snake-graphics_10.png');
+  background: url('../images/snake-graphics_tail.png');
 }
-.board .snake.snake-corner.main {
-  background: url('../images/snake-graphics_05.png');
+.board .snake.snake-tail.right {
+  -o-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+  /* IE 9 */
+  -webkit-transform: rotate(90deg);
+  /* Chrome, Safari, Opera */
+  transform: rotate(90deg);
 }
-.board .snake.snake-corner.out {
-  background: url('../images/snake-graphics_08.png');
+.board .snake.snake-tail.right.flip {
+  -moz-transform: scaleY(-1) rotate(90deg);
+  -o-transform: scaleY(-1) rotate(90deg);
+  -webkit-transform: scaleY(-1) rotate(90deg);
+  transform: scaleY(-1) rotate(90deg);
+  filter: FlipH;
+  -ms-filter: "FlipH";
 }
-.board .snake.snake-corner.tail {
-  background: url('../images/snake-graphics_07.png');
+.board .snake.snake-tail.down {
+  -o-transform: rotate(180deg);
+  -ms-transform: rotate(180deg);
+  /* IE 9 */
+  -webkit-transform: rotate(180deg);
+  /* Chrome, Safari, Opera */
+  transform: rotate(180deg);
+}
+.board .snake.snake-tail.down.flip {
+  -moz-transform: scaleX(-1) rotate(180deg);
+  -o-transform: scaleX(-1) rotate(180deg);
+  -webkit-transform: scaleX(-1) rotate(180deg);
+  transform: scaleX(-1) rotate(180deg);
+  filter: flipV;
+  -ms-filter: "FlipV";
+}
+.board .snake.snake-tail.left {
+  -o-transform: rotate(-90deg);
+  -ms-transform: rotate(-90deg);
+  /* IE 9 */
+  -webkit-transform: rotate(-90deg);
+  /* Chrome, Safari, Opera */
+  transform: rotate(-90deg);
+}
+.board .snake.snake-tail.left.flip {
+  -moz-transform: scaleY(-1) rotate(-90deg);
+  -o-transform: scaleY(-1) rotate(-90deg);
+  -webkit-transform: scaleY(-1) rotate(-90deg);
+  transform: scaleY(-1) rotate(-90deg);
+  filter: FlipH;
+  -ms-filter: "FlipH";
+}
+.board .snake.snake-tail.up {
+  -o-transform: rotate(0deg);
+  -ms-transform: rotate(0deg);
+  /* IE 9 */
+  -webkit-transform: rotate(0deg);
+  /* Chrome, Safari, Opera */
+  transform: rotate(0deg);
+}
+.board .snake.snake-tail.up.flip {
+  -moz-transform: scaleX(-1) rotate(0deg);
+  -o-transform: scaleX(-1) rotate(0deg);
+  -webkit-transform: scaleX(-1) rotate(0deg);
+  transform: scaleX(-1) rotate(0deg);
+  filter: flipV;
+  -ms-filter: "FlipV";
+}
+.board .snake.snake-corner {
+  background: url('../images/snake-graphics_corner-1.png');
+}
+.board .snake.snake-corner.left-corner {
+  -o-transform: rotate(0deg);
+  -ms-transform: rotate(0deg);
+  /* IE 9 */
+  -webkit-transform: rotate(0deg);
+  /* Chrome, Safari, Opera */
+  transform: rotate(0deg);
+}
+.board .snake.snake-corner.left-corner.flip {
+  -o-transform: rotate(-90deg);
+  -ms-transform: rotate(-90deg);
+  /* IE 9 */
+  -webkit-transform: rotate(-90deg);
+  /* Chrome, Safari, Opera */
+  transform: rotate(-90deg);
+}
+.board .snake.snake-corner.left-corner.flip.flip {
+  -moz-transform: scaleX(-1) rotate(-90deg);
+  -o-transform: scaleX(-1) rotate(-90deg);
+  -webkit-transform: scaleX(-1) rotate(-90deg);
+  transform: scaleX(-1) rotate(-90deg);
+  filter: flipV;
+  -ms-filter: "FlipV";
+}
+.board .snake.snake-corner.right-corner {
+  -o-transform: rotate(-90deg);
+  -ms-transform: rotate(-90deg);
+  /* IE 9 */
+  -webkit-transform: rotate(-90deg);
+  /* Chrome, Safari, Opera */
+  transform: rotate(-90deg);
+}
+.board .snake.snake-corner.right-corner.flip {
+  -moz-transform: scaleX(-1);
+  -o-transform: scaleX(-1);
+  -webkit-transform: scaleX(-1);
+  transform: scaleX(-1);
+  filter: FlipV;
+  -ms-filter: "FlipV";
+}
+.board .snake.snake-corner.down-right-corner {
+  -o-transform: rotate(180deg);
+  -ms-transform: rotate(180deg);
+  /* IE 9 */
+  -webkit-transform: rotate(180deg);
+  /* Chrome, Safari, Opera */
+  transform: rotate(180deg);
+}
+.board .snake.snake-corner.down-right-corner.flip {
+  -o-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+  /* IE 9 */
+  -webkit-transform: rotate(90deg);
+  /* Chrome, Safari, Opera */
+  transform: rotate(90deg);
+}
+.board .snake.snake-corner.down-right-corner.flip.flip {
+  -moz-transform: scaleX(-1) rotate(90deg);
+  -o-transform: scaleX(-1) rotate(90deg);
+  -webkit-transform: scaleX(-1) rotate(90deg);
+  transform: scaleX(-1) rotate(90deg);
+  filter: flipV;
+  -ms-filter: "FlipV";
+}
+.board .snake.snake-corner.down-left-corner {
+  -o-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+  /* IE 9 */
+  -webkit-transform: rotate(90deg);
+  /* Chrome, Safari, Opera */
+  transform: rotate(90deg);
+}
+.board .snake.snake-corner.down-left-corner.flip {
+  -moz-transform: scaleY(-1);
+  -o-transform: scaleY(-1);
+  -webkit-transform: scaleY(-1);
+  transform: scaleY(-1);
+  filter: FlipH;
+  -ms-filter: "FlipH";
+}
+.board .snake.snake-head {
+  background: url('../images/snake-graphics_head.png');
+}
+.board .snake.snake-head.right {
+  -o-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+  /* IE 9 */
+  -webkit-transform: rotate(90deg);
+  /* Chrome, Safari, Opera */
+  transform: rotate(90deg);
+}
+.board .snake.snake-head.right.flip {
+  -moz-transform: scaleY(-1) rotate(90deg);
+  -o-transform: scaleY(-1) rotate(90deg);
+  -webkit-transform: scaleY(-1) rotate(90deg);
+  transform: scaleY(-1) rotate(90deg);
+  filter: FlipH;
+  -ms-filter: "FlipH";
+}
+.board .snake.snake-head.down {
+  -o-transform: rotate(180deg);
+  -ms-transform: rotate(180deg);
+  /* IE 9 */
+  -webkit-transform: rotate(180deg);
+  /* Chrome, Safari, Opera */
+  transform: rotate(180deg);
+}
+.board .snake.snake-head.down.flip {
+  -moz-transform: scaleX(-1) rotate(180deg);
+  -o-transform: scaleX(-1) rotate(180deg);
+  -webkit-transform: scaleX(-1) rotate(180deg);
+  transform: scaleX(-1) rotate(180deg);
+  filter: flipV;
+  -ms-filter: "FlipV";
+}
+.board .snake.snake-head.left {
+  -o-transform: rotate(-90deg);
+  -ms-transform: rotate(-90deg);
+  /* IE 9 */
+  -webkit-transform: rotate(-90deg);
+  /* Chrome, Safari, Opera */
+  transform: rotate(-90deg);
+}
+.board .snake.snake-head.left.flip {
+  -moz-transform: scaleY(-1) rotate(-90deg);
+  -o-transform: scaleY(-1) rotate(-90deg);
+  -webkit-transform: scaleY(-1) rotate(-90deg);
+  transform: scaleY(-1) rotate(-90deg);
+  filter: FlipH;
+  -ms-filter: "FlipH";
+}
+.board .snake.snake-head.up {
+  -o-transform: rotate(0deg);
+  -ms-transform: rotate(0deg);
+  /* IE 9 */
+  -webkit-transform: rotate(0deg);
+  /* Chrome, Safari, Opera */
+  transform: rotate(0deg);
+}
+.board .snake.snake-head.up.flip {
+  -moz-transform: scaleX(-1) rotate(0deg);
+  -o-transform: scaleX(-1) rotate(0deg);
+  -webkit-transform: scaleX(-1) rotate(0deg);
+  transform: scaleX(-1) rotate(0deg);
+  filter: flipV;
+  -ms-filter: "FlipV";
+}
+.board .snake.alternate-head {
+  background: url('../images/snake-graphics-turning-head.png');
+}
+.board .snake.alternate-head.flip {
+  background: url('../images/snake-graphics-turning-head.png');
 }
 .board .fruit {
   background: red;
