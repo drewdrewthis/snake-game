@@ -14,7 +14,13 @@ function makeFruits() {
 	var x = Math.floor(Math.random() * ((bd - 1) - 0)) + 1;
 	var y = Math.floor(Math.random() * ((bd - 1) - 0)) + 1;
 
-	quad([x, y]).addClass('fruit');
+	// Make new fruit at random coords as long as the snake isn't there already
+	if(quad([x,y]).hasClass('snake')) {
+		makeFruits();
+	}
+	else {
+		quad([x, y]).addClass('fruit');
+	}
 	console.log("New Fruit: " + x + "," + y);
 }
 
