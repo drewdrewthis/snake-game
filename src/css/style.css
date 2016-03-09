@@ -543,6 +543,71 @@ section {
 .board .frog {
   background: url('../images/frog.png');
   background-size: cover;
+  opacity: 0.8;
+}
+.board .frog.right {
+  -o-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+  /* IE 9 */
+  -webkit-transform: rotate(90deg);
+  /* Chrome, Safari, Opera */
+  transform: rotate(90deg);
+}
+.board .frog.right.flip {
+  -moz-transform: scaleY(-1) rotate(90deg);
+  -o-transform: scaleY(-1) rotate(90deg);
+  -webkit-transform: scaleY(-1) rotate(90deg);
+  transform: scaleY(-1) rotate(90deg);
+  filter: FlipH;
+  -ms-filter: "FlipH";
+}
+.board .frog.down {
+  -o-transform: rotate(180deg);
+  -ms-transform: rotate(180deg);
+  /* IE 9 */
+  -webkit-transform: rotate(180deg);
+  /* Chrome, Safari, Opera */
+  transform: rotate(180deg);
+}
+.board .frog.down.flip {
+  -moz-transform: scaleX(-1) rotate(180deg);
+  -o-transform: scaleX(-1) rotate(180deg);
+  -webkit-transform: scaleX(-1) rotate(180deg);
+  transform: scaleX(-1) rotate(180deg);
+  filter: flipV;
+  -ms-filter: "FlipV";
+}
+.board .frog.left {
+  -o-transform: rotate(-90deg);
+  -ms-transform: rotate(-90deg);
+  /* IE 9 */
+  -webkit-transform: rotate(-90deg);
+  /* Chrome, Safari, Opera */
+  transform: rotate(-90deg);
+}
+.board .frog.left.flip {
+  -moz-transform: scaleY(-1) rotate(-90deg);
+  -o-transform: scaleY(-1) rotate(-90deg);
+  -webkit-transform: scaleY(-1) rotate(-90deg);
+  transform: scaleY(-1) rotate(-90deg);
+  filter: FlipH;
+  -ms-filter: "FlipH";
+}
+.board .frog.up {
+  -o-transform: rotate(0deg);
+  -ms-transform: rotate(0deg);
+  /* IE 9 */
+  -webkit-transform: rotate(0deg);
+  /* Chrome, Safari, Opera */
+  transform: rotate(0deg);
+}
+.board .frog.up.flip {
+  -moz-transform: scaleX(-1) rotate(0deg);
+  -o-transform: scaleX(-1) rotate(0deg);
+  -webkit-transform: scaleX(-1) rotate(0deg);
+  transform: scaleX(-1) rotate(0deg);
+  filter: flipV;
+  -ms-filter: "FlipV";
 }
 #legend .game_controller {
   padding: 2rem;
@@ -569,6 +634,9 @@ section {
   color: white;
 }
 @media screen and (max-width: 768px) {
+  .board {
+    max-width: 400px;
+  }
   header .game_buttons {
     padding-right: 0;
   }

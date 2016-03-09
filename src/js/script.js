@@ -7,6 +7,7 @@ var gameOptions = {
 	"dimension" : 15, // This is the variable that determines the number of quadrants of one side
 	"theme" : "theme1"
 };
+var directions = ["right","left","up","down"];
 
 
 // Takes coordinates and returns the quadrant 
@@ -19,12 +20,13 @@ function makeFrogs() {
 	var x = Math.floor(Math.random() * ((gameOptions.dimension - 1) - 0)) + 1;
 	var y = Math.floor(Math.random() * ((gameOptions.dimension - 1) - 0)) + 1;
 
+
 	// Make new frog at random coords as long as the snake isn't there already
 	if(quad([x,y]).hasClass('snake')) {
 		makeFrogs();
 	}
 	else {
-		quad([x, y]).addClass('frog');
+		quad([x, y]).addClass('frog').addClass(directions[Math.floor(Math.random() * directions.length)]);
 	}
 	console.log("New Frog: " + x + "," + y);
 }
