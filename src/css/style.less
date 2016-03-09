@@ -4,6 +4,7 @@
 }
 
 @my-font: 'Seymour One', sans-serif;
+@my-text-shadow: 0 0.3px 0.5px black;
 
 :root {
     background-color: #38566F;
@@ -20,12 +21,32 @@ body {
       rgba(0, 0, 0, 0.3) 10px,
       rgba(0, 0, 0, 0.3) 20px
     ),
-    //url('');
-    url(http://s3-us-west-2.amazonaws.com/s.cdpn.io/3/old_map_@2X.png);
+    url('');
+    //url(http://s3-us-west-2.amazonaws.com/s.cdpn.io/3/old_map_@2X.png);
     max-width: 600px;
     box-shadow: 0 0 43px 17px black;
     border-left: 10px solid rgba(0, 128, 0, 0.2);
     border-right: 10px solid rgba(0, 128, 0, 0.2);
+}
+
+.modal-content {
+    background: repeating-linear-gradient(
+      45deg,
+      rgba(0, 0, 0, 0.2),
+      rgba(0, 0, 0, 0.2) 10px,
+      rgba(0, 0, 0, 0.3) 10px,
+      rgba(0, 0, 0, 0.3) 20px
+    ),
+    url(http://s3-us-west-2.amazonaws.com/s.cdpn.io/3/old_map_@2X.png);
+    font-family: @my-font;
+    color: white;
+    .modal-header, .modal-footer {
+        background: #ADA58E;
+    }
+    h5 {
+        color: #FFE0A2;
+        text-shadow: @my-text-shadow;
+    }
 }
 
 header {
@@ -39,7 +60,8 @@ header {
     .game_buttons {
         text-align: right;
         button {
-            font-size: 100%;
+            font-size: 92%;
+            letter-spacing: -0.6px;
             border-radius: 100%;
             height: 75px;
             width: 75px;
@@ -268,8 +290,6 @@ section {
         }
     }
 }
-
-
 
 @media screen and (max-width: 768px) {
     header {

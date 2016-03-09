@@ -79,25 +79,65 @@
                 </div>
             </div>
         </div>
-        </div>
     </section>
 </body>
 <div class="modal fade" id="optionModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Options</h4>
-      </div>
-      <div class="modal-body">
-        ...
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Options</h4>
+            </div>
+            <div class="modal-body">
+                <form id="options-form">
+                    <h2>Game Speed</h2>
+                    <div class="btn-group btn-group-lg" data-toggle="buttons" data-role="none">
+                        <label class="btn btn-default" data-role="none">
+                            <input type="radio" name="speed" id="slow" value="150" autocomplete="off" data-role="none">Slow
+                        </label>
+                        <label class="btn btn-default active">
+                            <input type="radio" name="speed" id="medium" value="100" autocomplete="off" checked data-role="none">Medium
+                        </label>
+                        <label class="btn btn-default">
+                            <input type="radio" name="speed" id="fast" value="50" autocomplete="off" data-role="none">Fast
+                        </label>
+                    </div>
+                    <h2>Board Dimensions</h2>
+                    <h5>Must reset game for new board size</h5>
+                    <div class="btn-group btn-group-lg" data-toggle="buttons" data-role="none">
+                        <label class="btn btn-default" data-role="none">
+                            <input type="radio" name="dimensions" id="sm-board" value="15" autocomplete="off" data-role="none">15 x 15
+                        </label>
+                        <label class="btn btn-default active">
+                            <input type="radio" name="dimension" id="med-board" value="25" autocomplete="off" checked data-role="none">25 x 25
+                        </label>
+                        <label class="btn btn-default">
+                            <input type="radio" name="dimension" id="lg-board" value="50" autocomplete="off" data-role="none">50 x 50
+                        </label>
+                        <label class="btn btn-default">
+                            <input type="radio" name="dimension" id="xlg-board" value="100" autocomplete="off" data-role="none">100 x 100
+                        </label>
+                    </div>
+                    <h2>Theme</h2>
+                    <div class="btn-group btn-group-lg" data-toggle="buttons" data-role="none">
+                        <label class="btn btn-default active" data-role="none">
+                            <input type="radio" name="theme" id="Theme1" value="15" autocomplete="off" data-role="none">Theme1
+                        </label>
+                        <label class="btn btn-default">
+                            <input type="radio" name="theme" id="Theme2" value="25" autocomplete="off" checked data-role="none">Theme2
+                        </label>
+                        <label class="btn btn-default">
+                            <input type="radio" name="theme" id="Theme3" value="50" autocomplete="off" data-role="none">Theme3
+                        </label>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button type="button" id="options-form-submit" form="options-form" class="btn btn-primary" data-dismiss="modal">Save changes</button>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
 
 </html>

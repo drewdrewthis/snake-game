@@ -1,8 +1,13 @@
-var direction, snake, head, paused, score, prev_direction, game_speed;
+var direction, snake, head, paused, score, prev_direction;
 var isFlip = true,
-	isTurn = false;
-isCorner = false;
-var bd = 15; // This is the variable that determines the number of quadrants of one side
+	isTurn = false,
+	isCorner = false;
+var gameOptions = {
+	"speed" : 100,
+	"dimension" : 15, // This is the variable that determines the number of quadrants of one side
+	"theme" : "theme1"
+};
+
 
 // Takes coordinates and returns the quadrant 
 function quad(coord) {
@@ -11,8 +16,8 @@ function quad(coord) {
 
 // Randomly place a piece of fruit on the board
 function makeFruits() {
-	var x = Math.floor(Math.random() * ((bd - 1) - 0)) + 1;
-	var y = Math.floor(Math.random() * ((bd - 1) - 0)) + 1;
+	var x = Math.floor(Math.random() * ((gameOptions.dimension - 1) - 0)) + 1;
+	var y = Math.floor(Math.random() * ((gameOptions.dimension - 1) - 0)) + 1;
 
 	// Make new fruit at random coords as long as the snake isn't there already
 	if(quad([x,y]).hasClass('snake')) {
@@ -33,25 +38,24 @@ function setup() {
 	$('#score').text(score);
 	paused = true;
 	direction = "right";
-	game_speed = 150;
 	prev_direction = direction;
 	snake = [
-		[~~(bd / 2) - 3, ~~(bd / 2)],
-		[~~(bd / 2) - 2, ~~(bd / 2)],
-		[~~(bd / 2) - 1, ~~(bd / 2)],
-		[~~(bd / 2), ~~(bd / 2)]
+		[~~(gameOptions.dimension / 2) - 3, ~~(gameOptions.dimension / 2)],
+		[~~(gameOptions.dimension / 2) - 2, ~~(gameOptions.dimension / 2)],
+		[~~(gameOptions.dimension / 2) - 1, ~~(gameOptions.dimension / 2)],
+		[~~(gameOptions.dimension / 2), ~~(gameOptions.dimension / 2)]
 	];
 	head = snake.length - 1;
 
 	// Build board quadrants
-	for (var y = 0; y < bd; y++) {
-		for (var x = 0; x < bd; x++) {
+	for (var y = 0; y < gameOptions.dimension; y++) {
+		for (var x = 0; x < gameOptions.dimension; x++) {
 			$('.board').append('<div class="quadrant" data-xcoord="' + x + '" data-ycoord="' + y + '"></div>');
 		}
 	}
 	$('.quadrant').css({
-		width: (boardW/bd/boardW*100)+"%",
-		height: (boardW/bd/boardW*100)+"%"
+		width: (boardW/gameOptions.dimension/boardW*100)+"%",
+		height: (boardW/gameOptions.dimension/boardW*100)+"%"
 	});
 	makeFruits();
 	quad(snake[head]).addClass("snake snake-head").addClass(direction);
@@ -84,7 +88,7 @@ function isOver(coord) {
 		return true;
 	}
 
-	if (coord[0] >= bd || coord[1] >= bd || coord[0] < 0 || coord[1] < 0) {
+	if (coord[0] >= gameOptions.dimension || coord[1] >= gameOptions.dimension || coord[0] < 0 || coord[1] < 0) {
 		console.log("Over! Crashed into the wall! " + coord);
 		return true;
 	} else {
@@ -104,7 +108,7 @@ function growSnake(new_pos) {
 function makeCorner(coords) {
 	// Make quadrant behind head a corner
 	quad(coords).addClass("snake-corner");
-	console.log(prev_direction + " : " + direction + " " + coords);
+	//console.log(prev_direction + " : " + direction + " " + coords);
 
 	if ((prev_direction == "up" && direction == "right") ||
 		(prev_direction == "left" && direction == "down")) {
@@ -243,7 +247,7 @@ function progress_snake(snake) {
 				progress_snake(snake);
 			}
 		}
-	}, game_speed);
+	}, gameOptions.speed);
 }
 
 function goUp() {
@@ -326,6 +330,13 @@ $(document).ready(function() {
 		goDown();
 	});
 
+	$('#options-form-submit').on('click', function(event) {
+		$("#options-form input:checked").each(function(){
+			gameOptions[this.name] = this.value;
+		});
+		console.log(gameOptions);
+		event.preventDefault();
+	});
 });
 
 // Take user input and set snake direction
