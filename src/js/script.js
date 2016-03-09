@@ -14,19 +14,19 @@ function quad(coord) {
 	return $('[data-xcoord=' + coord[0] + '][data-ycoord=' + coord[1] + ']');
 }
 
-// Randomly place a piece of fruit on the board
-function makeFruits() {
+// Randomly place a piece of frog on the board
+function makeFrogs() {
 	var x = Math.floor(Math.random() * ((gameOptions.dimension - 1) - 0)) + 1;
 	var y = Math.floor(Math.random() * ((gameOptions.dimension - 1) - 0)) + 1;
 
-	// Make new fruit at random coords as long as the snake isn't there already
+	// Make new frog at random coords as long as the snake isn't there already
 	if(quad([x,y]).hasClass('snake')) {
-		makeFruits();
+		makeFrogs();
 	}
 	else {
-		quad([x, y]).addClass('fruit');
+		quad([x, y]).addClass('frog');
 	}
-	console.log("New Fruit: " + x + "," + y);
+	console.log("New Frog: " + x + "," + y);
 }
 
 // Set up the board and initialize the game
@@ -57,7 +57,7 @@ function setup() {
 		width: (boardW/gameOptions.dimension/boardW*100)+"%",
 		height: (boardW/gameOptions.dimension/boardW*100)+"%"
 	});
-	makeFruits();
+	makeFrogs();
 	quad(snake[head]).addClass("snake snake-head").addClass(direction);
 	// Give new head position snake class
 	quad(snake[head - 1]).addClass("snake snake-body-1 flip").addClass(direction);
@@ -135,10 +135,10 @@ function makeCorner(coords) {
 	prev_direction = direction;
 }
 
-// Tests to see if the quadrant the snake entered has fruit
-function isFruit(coord) {
+// Tests to see if the quadrant the snake entered has frog
+function isfrog(coord) {
 
-	if (quad(coord).hasClass('fruit')) {
+	if (quad(coord).hasClass('frog')) {
 		score++;
 		$('#score').text(score);
 		return true;
@@ -178,15 +178,15 @@ function progress_snake(snake) {
 			clearTimeout(progress_loop);
 		} else {
 
-			if (isFruit(new_pos)) {
-				// If new quadrant has a fruit
-				// Remove fruit class and make a new fruit
-				quad(new_pos).removeClass("fruit");
-				makeFruits();
+			if (isfrog(new_pos)) {
+				// If new quadrant has a frog
+				// Remove frog class and make a new frog
+				quad(new_pos).removeClass("frog");
+				makeFrogs();
 				growSnake(new_pos);
 
 			} else {
-				// If new quadrant has no fruit
+				// If new quadrant has no frog
 				// Remove tail
 				quad(snake[0]).removeClass().addClass('quadrant');
 
@@ -313,7 +313,7 @@ $(document).ready(function() {
 		setup();
 	});
 	$('#more_frogs').on('tap', function() {
-		makeFruits();
+		makeFrogs();
 	});
 
 	// Game controller 
@@ -374,7 +374,7 @@ $(document).keydown(function(e) {
 			break;
 
 		case 77: // m
-			makeFruits();
+			makeFrogs();
 			break;
 
 		default:

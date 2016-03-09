@@ -27,6 +27,9 @@ body {
   color: #FFE0A2;
   text-shadow: 0 0.3px 0.5px black;
 }
+.modal-content .btn-default.active {
+  background: #F3BF62;
+}
 header {
   color: white;
   padding: 15px 25px;
@@ -536,6 +539,10 @@ section {
 .board .fruit {
   background: red;
   border-radius: 100%;
+}
+.board .frog {
+  background: url('../images/frog.png');
+  background-size: cover;
 }
 #legend .game_controller {
   padding: 2rem;
