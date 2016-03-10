@@ -64,6 +64,10 @@ header .game_buttons button#options {
   background: #5B9B5B;
   font-size: 150%;
 }
+header .game_buttons button#options:hover {
+  background-color: #398239;
+  border-color: #398439;
+}
 section {
   padding: 0 20px;
 }

@@ -1,7 +1,8 @@
-var direction, snake, head, paused, score, prev_direction;
+var direction, snake, head, score, prev_direction, x, y;
 var isFlip = true,
 	isTurn = false,
 	isCorner = false;
+	isPaused = true;
 var gameOptions = {
 	"speed" : 100,
 	"dimension" : 15, // This is the variable that determines the number of quadrants of one side
@@ -17,9 +18,8 @@ function quad(coord) {
 
 // Randomly place a piece of frog on the board
 function makeFrogs() {
-	var x = Math.floor(Math.random() * ((gameOptions.dimension - 1) - 0)) + 1;
-	var y = Math.floor(Math.random() * ((gameOptions.dimension - 1) - 0)) + 1;
-
+	x = Math.floor(Math.random() * ((gameOptions.dimension - 1) - 0)) + 1;
+	y = Math.floor(Math.random() * ((gameOptions.dimension - 1) - 0)) + 1;
 
 	// Make new frog at random coords as long as the snake isn't there already
 	if(quad([x,y]).hasClass('snake')) {
@@ -38,7 +38,7 @@ function setup() {
 	$('.board').css('height', boardW);
 	score = 0;
 	$('#score').text(score);
-	paused = true;
+	isPaused = true;
 	direction = "right";
 	prev_direction = direction;
 	snake = [
@@ -70,14 +70,14 @@ function setup() {
 }
 
 function pauseGame() {
-	if (!paused) {
-		paused = true;
+	if (!isPaused) {
+		isPaused = true;
 		$('#start_stop').html("Resume");
 
 	} else {
 		progress_snake(snake);
 		$('#start_stop').text("Pause");
-		paused = false;
+		isPaused = false;
 	}
 }
 
@@ -244,8 +244,8 @@ function progress_snake(snake) {
 			// Alternate snake body image
 			isFlip = !isFlip;
 
-			// Goes through the cycles again if not paused
-			if (!paused) {
+			// Goes through the cycles again if not isPaused
+			if (!isPaused) {
 				progress_snake(snake);
 			}
 		}
@@ -305,7 +305,7 @@ $(document).ready(function() {
 		}
 		if ($(this).text() == "Start") {
 			$(this).text("Pause");
-			paused = false;
+			isPaused = false;
 			progress_snake(snake);
 			return;
 		}
@@ -345,21 +345,37 @@ $(document).ready(function() {
 $(document).keydown(function(e) {
 	switch (e.which) {
 		case 37: // left
+			if(isPaused) {
+				pauseGame();
+				isPaused = false;
+			}
 			goLeft();
 			$('#left').addClass('pressed');
 			break;
 
 		case 38: // up
+			if(isPaused) {
+				pauseGame();
+				isPaused = false;
+			}
 			goUp();
 			$('#up').addClass('pressed');
 			break;
 
 		case 39: // right
+			if(isPaused) {
+				pauseGame();
+				isPaused = false;
+			}
 			goRight();
 			$('#right').addClass('pressed');
 			break;
 
 		case 40: // down
+			if(isPaused) {
+				pauseGame();
+				isPaused = false;
+			}
 			goDown();
 			$('#down').addClass('pressed');
 			break;
@@ -371,7 +387,7 @@ $(document).keydown(function(e) {
 			pauseGame();
 			break;
 
-		case 84: // space
+		case 84: // r
 			setup();
 			break;
 
