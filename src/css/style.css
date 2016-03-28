@@ -534,6 +534,73 @@ section {
   filter: flipV;
   -ms-filter: "FlipV";
 }
+.board .snake.snake-head-2 {
+  background: url('../images/head-2.png');
+}
+.board .snake.snake-head-2.right {
+  -o-transform: rotate(90deg);
+  -ms-transform: rotate(90deg);
+  /* IE 9 */
+  -webkit-transform: rotate(90deg);
+  /* Chrome, Safari, Opera */
+  transform: rotate(90deg);
+}
+.board .snake.snake-head-2.right.flip {
+  -moz-transform: scaleY(-1) rotate(90deg);
+  -o-transform: scaleY(-1) rotate(90deg);
+  -webkit-transform: scaleY(-1) rotate(90deg);
+  transform: scaleY(-1) rotate(90deg);
+  filter: FlipH;
+  -ms-filter: "FlipH";
+}
+.board .snake.snake-head-2.down {
+  -o-transform: rotate(180deg);
+  -ms-transform: rotate(180deg);
+  /* IE 9 */
+  -webkit-transform: rotate(180deg);
+  /* Chrome, Safari, Opera */
+  transform: rotate(180deg);
+}
+.board .snake.snake-head-2.down.flip {
+  -moz-transform: scaleX(-1) rotate(180deg);
+  -o-transform: scaleX(-1) rotate(180deg);
+  -webkit-transform: scaleX(-1) rotate(180deg);
+  transform: scaleX(-1) rotate(180deg);
+  filter: flipV;
+  -ms-filter: "FlipV";
+}
+.board .snake.snake-head-2.left {
+  -o-transform: rotate(-90deg);
+  -ms-transform: rotate(-90deg);
+  /* IE 9 */
+  -webkit-transform: rotate(-90deg);
+  /* Chrome, Safari, Opera */
+  transform: rotate(-90deg);
+}
+.board .snake.snake-head-2.left.flip {
+  -moz-transform: scaleY(-1) rotate(-90deg);
+  -o-transform: scaleY(-1) rotate(-90deg);
+  -webkit-transform: scaleY(-1) rotate(-90deg);
+  transform: scaleY(-1) rotate(-90deg);
+  filter: FlipH;
+  -ms-filter: "FlipH";
+}
+.board .snake.snake-head-2.up {
+  -o-transform: rotate(0deg);
+  -ms-transform: rotate(0deg);
+  /* IE 9 */
+  -webkit-transform: rotate(0deg);
+  /* Chrome, Safari, Opera */
+  transform: rotate(0deg);
+}
+.board .snake.snake-head-2.up.flip {
+  -moz-transform: scaleX(-1) rotate(0deg);
+  -o-transform: scaleX(-1) rotate(0deg);
+  -webkit-transform: scaleX(-1) rotate(0deg);
+  transform: scaleX(-1) rotate(0deg);
+  filter: flipV;
+  -ms-filter: "FlipV";
+}
 .board .snake.alternate-head {
   background: url('../images/snake-graphics-turning-head.png');
 }

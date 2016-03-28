@@ -209,7 +209,7 @@ function progress_snake(snake) {
 			if (prev_direction != direction) {
 				// This commented out line will delay the head turn by one iteration, but messes up the tail
 				// turning at the corner. 
-				//quad(snake[head]).removeClass().addClass("quadrant snake snake-head").addClass(prev_direction);
+				quad(snake[head]).removeClass().addClass("quadrant snake snake-head-2").addClass(direction);
 				makeCorner(snake[head]);
 			}
 
@@ -221,11 +221,11 @@ function progress_snake(snake) {
 			// Update rest of body images
 			if (!(quad(snake[head - 1])).hasClass('snake-corner')) {
 				// Give give second position new snake class if not already a corner
-				quad(snake[head - 1]).addClass("snake snake-body-1").removeClass("snake-head");
+				quad(snake[head - 1]).addClass("snake snake-body-1").removeClass("snake-head-2, snake-head");
 			} else {
 				// Add alternate corner class for clean connection to head
 				quad(snake[head]).addClass("alternate-head");
-				quad(snake[head - 1]).removeClass("snake-head");
+				quad(snake[head - 1]).removeClass("snake-head, snake-head-2");
 			}
 			if (!(quad(snake[head - 2])).hasClass('snake-corner')) {
 				// Give third position snake class snake class if not a corner
