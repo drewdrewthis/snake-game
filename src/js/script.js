@@ -499,7 +499,8 @@ var controller = {
 
 	makeFrog: function() {
 		var dimension = model.game.options.dimension,
-			directions = model.game.directions;
+			directions = model.game.directions,
+			frog = null;
 		// Randomly place a piece of frog on the board
 		x = Math.floor(Math.random() * ((dimension - 1) - 0)) + 1;
 		y = Math.floor(Math.random() * ((dimension - 1) - 0)) + 1;
@@ -508,10 +509,65 @@ var controller = {
 		if (view.quad([x, y]).hasClass('snake')) {
 			controller.makeFrog();
 		} else {
-			view.quad([x, y]).addClass('frog').addClass(directions[Math.floor(Math.random() * directions.length)]);
+			frog = view.quad([x,y]);
+			frog.addClass('frog').addClass(directions[Math.floor(Math.random() * directions.length)]);
 		}
+
+		controller.delayHop(frog, 2000);
+
 		console.log("New Frog: " + x + "," + y);
 	},
+
+	frogHop: function(frog) {
+
+		var x = frog.data("xcoord");
+		var y = frog.data("ycoord");
+		var new_pos = [x, y];
+		var direction = null;
+		
+		model.game.directions.forEach(function(dir) {
+			if (frog.hasClass(dir)) {
+				direction = dir;
+			}
+		});
+
+		switch (direction) {
+
+			case "up":
+				new_pos[1] -= 2;
+				break;
+
+			case "down":
+				new_pos[1] += 2;
+
+				break;
+			case "left":
+				new_pos[0] -= 2;
+				break;
+
+			case "right":
+				new_pos[0] += 2;
+				break;
+
+			default:
+				console.log("froghop failed: " + new_pos);
+				break;
+		}
+
+		console.log("Froghop! " + direction + " " + new_pos);
+
+		frog.removeClass().addClass("quadrant");
+		frog = view.quad(new_pos);
+		frog.addClass(direction + " frog");
+
+		controller.delayHop(frog, 2000);
+	},
+
+	delayHop: function(frog, time) {
+		setTimeout(function() {
+			controller.frogHop(frog);
+		}, time);
+	}
 };
 
 // Run the game
