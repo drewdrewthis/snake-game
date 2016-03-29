@@ -43,48 +43,6 @@ var view = {
 		controller.makeFrog();
 	},
 
-	mobileControls: function() {
-		// Set button click functions
-		$('#start_stop').on('tap', function() {
-			if ($(this).text() == "Pause") {
-				pauseGame();
-				return;
-			}
-			if ($(this).text() == "Resume") {
-				pauseGame();
-				return;
-			}
-			if ($(this).text() == "Start") {
-				$(this).text("Pause");
-				isPaused = false;
-				controller.moveSnake.go(controller.snake);
-				return;
-			}
-		});
-		$('#reset').on('tap', function() {
-			$('#start_stop').text("Start");
-			controller.game.reset();
-		});
-		$('#more_frogs').on('tap', function() {
-			controller.makeFrog();
-		});
-
-		// Game controller 
-		$('#left').on('tap', function() {
-			controller.moveSnake.left();
-		});
-		$('#up').on('tap', function() {
-			controller.moveSnake.up();
-		});
-		$('#right').on('tap', function() {
-			controller.moveSnake.right();
-		});
-		$('#down').on('tap', function() {
-			controller.moveSnake.down();
-		});
-
-	},
-
 	userOptions: function() {
 		var needsReset = false;
 
@@ -114,6 +72,7 @@ var view = {
 		var boardW = $('.board').width();
 		$('.board').css('height', boardW);
 		$('#score').text(model.game.score);
+		$('#highscore').text(localStorage.highscore);
 
 		window.addEventListener("resize", function() {
 			$('.board').css('height', $('.board').width());
@@ -191,7 +150,7 @@ var view = {
 					break;
 
 				case 84: // r
-					view.setupBoard();
+					controller.game.pause(model.snake);
 					break;
 
 				case 77: // m
@@ -232,6 +191,49 @@ var view = {
 			}
 			e.preventDefault(); // prevent the default action (scroll / move caret)
 		});
+	},
+
+
+	mobileControls: function() {
+		// Set button click functions
+		$('#start_stop').on('tap', function() {
+			if ($(this).text() == "Pause") {
+				controller.game.pause(model.snake);
+				return;
+			}
+			if ($(this).text() == "Resume") {
+				controller.game.pause(model.snake);
+				return;
+			}
+			if ($(this).text() == "Start") {
+				$(this).text("Pause");
+				isPaused = false;
+				controller.moveSnake.go(model.snake);
+				return;
+			}
+		});
+		$('#reset').on('tap', function() {
+			$('#start_stop').text("Start");
+			controller.game.reset();
+		});
+		$('#more_frogs').on('tap', function() {
+			controller.makeFrog();
+		});
+
+		// Game controller 
+		$('#left').on('tap', function() {
+			controller.moveSnake.left(model.snake);
+		});
+		$('#up').on('tap', function() {
+			controller.moveSnake.up(model.snake);
+		});
+		$('#right').on('tap', function() {
+			controller.moveSnake.right(model.snake);
+		});
+		$('#down').on('tap', function() {
+			controller.moveSnake.down(model.snake);
+		});
+
 	}
 
 };
@@ -241,6 +243,9 @@ var controller = {
 	init: function() {
 		console.log("Initializing game..");
 		model.init();
+		if(!localStorage.highscore) {
+			localStorage.highscore = 0;
+		}
 		view.init();
 	},
 
@@ -250,6 +255,15 @@ var controller = {
 
 	getSnake: function() {
 		return model.snake;
+	},
+
+	setHighScore: function() {
+		if (localStorage.highscore < model.game.score) {
+			localStorage.highscore = model.game.score;
+			$('#highscore').text(localStorage.highscore);
+			alert("New High Score!");
+			controller.game.reset();
+		}
 	},
 
 	game: {
@@ -272,6 +286,7 @@ var controller = {
 			if (view.quad(coord).hasClass("snake")) {
 
 				console.log("Over! Bit its tail! " + coord);
+				controller.setHighScore();
 				return true;
 			}
 
@@ -280,6 +295,7 @@ var controller = {
 				coord[0] < 0 ||
 				coord[1] < 0) {
 				console.log("Over! Crashed into the wall! " + coord);
+				controller.setHighScore();
 				return true;
 			} else {
 				return false;
