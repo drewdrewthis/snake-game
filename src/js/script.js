@@ -564,7 +564,8 @@ var controller = {
 	},
 
 	delayHop: function(frog, time) {
-		setTimeout(function() {
+
+		var hop = setTimeout(function() {
 			controller.frogHop(frog);
 		}, time);
 	}

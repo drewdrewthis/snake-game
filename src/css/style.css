@@ -182,6 +182,7 @@ section {
 .board .snake {
   background: orange;
   background-size: cover!important;
+  background-repeat: no-repeat !important;
 }
 .board .snake.snake-body-1 {
   background: url('../images/snake-graphics_head-2.png');
