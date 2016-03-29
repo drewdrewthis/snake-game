@@ -28,7 +28,10 @@ var model = {
 			"theme": "theme1"
 		},
 		directions: ["right", "left", "up", "down"]
-	}
+	},
+
+	// Clever way to store all of the frog timeouts for clearing later. 
+	frogTOs: []
 };
 
 var view = {
@@ -303,8 +306,10 @@ var controller = {
 		},
 
 		reset: function() {
+			controller.cancelHops();
 			model.init();
 			view.setupBoard(model.game.options.dimension,model.snake);
+			$('frog').removeClass().addClass('quadrant');
 			controller.makeFrog();
 		}
 	},
@@ -554,20 +559,30 @@ var controller = {
 				break;
 		}
 
-		console.log("Froghop! " + direction + " " + new_pos);
-
-		frog.removeClass().addClass("quadrant");
+		frog.removeClass('frog');
 		frog = view.quad(new_pos);
-		frog.addClass(direction + " frog");
 
-		controller.delayHop(frog, 2000);
+		if (!frog.hasClass('snake') && frog.hasClass('quadrant')) {
+			frog.addClass(direction + " frog");
+			controller.delayHop(frog, 2000);
+		}
+		else {
+			console.log("Stopped hop");
+			if($('.frog').length < 1) controller.makeFrog();
+		}
 	},
 
 	delayHop: function(frog, time) {
-
-		var hop = setTimeout(function() {
+		model.frogTOs.push(setTimeout(function() {
 			controller.frogHop(frog);
-		}, time);
+		}, time));
+	},
+
+	cancelHops: function() {
+		for(var i = 0; i < model.frogTOs.length; i++) {
+			clearTimeout(model.frogTOs[i]);
+		}
+		model.frogTOs = [];
 	}
 };
 
