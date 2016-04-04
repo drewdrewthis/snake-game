@@ -29,10 +29,29 @@ body {
     border-right: 10px solid rgba(0, 128, 0, 0.2);
 }
 
-#leaderboard {
+#highscoreModal {
     color: white;
+    text-align: center;
+    background: rgba(255, 0, 0, 0.38);
     form {
         color: black;
+    }
+    ol {
+        max-height: 200px;
+        overflow-y: scroll;
+        width: 200px;
+        margin: auto;
+        opacity: .8;
+        & li:first-child {
+            opacity: 1;
+            color: #9F0000;
+        }
+    }
+    .btn {
+        margin: 1rem auto;
+    }
+    .closebtn {
+        display: none;
     }
 }
 

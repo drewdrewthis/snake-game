@@ -74,8 +74,14 @@ var view = {
 		$('.board').html('');
 		var boardW = $('.board').width();
 		$('.board').css('height', boardW);
-		$('#score').text(model.game.score);
-		$('#highscore').text(localStorage.highscore);
+		$('.score').text(model.game.score);
+		$('.highscore').text(localStorage.highscore);
+		$('.close, .closebtn').click(function() {
+			$('.modal').hide();
+			controller.game.reset();
+			$('#postform').show();
+			$('.closebtn').hide();
+		});
 
 		window.addEventListener("resize", function() {
 			$('.board').css('height', $('.board').width());
@@ -108,6 +114,8 @@ var view = {
 	assignKeyControls: function() {
 		// Take user input and set snake direction
 		$(document).keydown(function(e) {
+
+			
 			switch (e.which) {
 				case 37: // left
 					if (model.game.isPaused) {
@@ -145,24 +153,35 @@ var view = {
 					$('#down').addClass('pressed');
 					break;
 
-				case 80: // p
-				case 83: // s
+				//case 80: // p
+				//case 83: // s
 				case 27: // escape
 				case 32: // space
 					controller.game.pause(model.snake);
 					break;
 
-				case 84: // r
-					controller.game.pause(model.snake);
+				/*case 84: // r
+					if($('#highscoreModal').css('display') == 'none') {
+						controller.game.pause(model.snake);
+
+						console.log('pussssh');
+					}
 					break;
 
+
 				case 77: // m
-					view.makeFrogs();
+					if($('#highscoreModal').css('display') == 'none') {
+						view.makeFrogs();
+
+						console.log('pussssh');
+					}
 					break;
+				*/
 
 				default:
 					return; // exit this handler for other keys
 			}
+
 			e.preventDefault(); // prevent the default action (scroll / move caret)
 		});
 
@@ -263,10 +282,10 @@ var controller = {
 	setHighScore: function() {
 		if (localStorage.highscore < model.game.score) {
 			localStorage.highscore = model.game.score;
-			$('#highscore').text(localStorage.highscore);
-			alert("New High Score!");
-			controller.game.reset();
+			$('.highscore').text(localStorage.highscore);
 		}
+
+		$('#highscoreModal').show();
 	},
 
 	game: {
@@ -496,7 +515,7 @@ var controller = {
 
 		if (view.quad(coord).hasClass('frog')) {
 			model.game.score++;
-			$('#score').text(model.game.score);
+			$('.score').text(model.game.score);
 			return true;
 		}
 		return false;

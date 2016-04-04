@@ -25,29 +25,38 @@ var snakegame = angular.module('snakegame', ['backand'])
 					sort: sort || ''
 				}
 			}).then(function(data) {
+				var datArr = data.data.data;
+				var count = 1;
 				console.log('Got data');
-				localStorage.highscores = JSON.stringify(data.data.data);
-				console.log(JSON.parse(localStorage.highscores));
-				$('#leaderboard ul').text();
-				JSON.parse(localStorage.highscores).forEach(function(item) {
-					$('#leaderboard ul').append("<li>" +
+				datArr.sort(function(a,b) {
+					return a.score < b.score;
+				});
+				console.log(datArr);
+				//localStorage.highscores = JSON.stringify(datArr);
+				$('#leaderboard ol').text('');
+				datArr.forEach(function(item) {
+					$('#leaderboard ol').append("<li>" +
 						item.user + " " +
 						item.score + "</li>");
 				});
-
 			});
 		};
 
 		vm.updateList = function(username, score) {
-			var name = 'highscores';
+			var name = 'highscores',
+				today = new Date();
+				today = today.toISOString();
 			return $http({
 				method: 'POST',
 				url: Backand.getApiUrl() + '/1/objects/' + name,
 				data: 
 					{
 						"user" : username,
-						"score" : score
+						"score" : score,
+						"created" : today
 					}
+			}).then(function() {
+				vm.getList();
 			});
 		};
 
@@ -55,13 +64,14 @@ var snakegame = angular.module('snakegame', ['backand'])
 			e.preventDefault();
 			var name = $('#postform input[name="name"]').val();
 			var score = $('#postform input[name="score"]').val();
-			console.log('submit' + name+score);
-
-			vm.updateList(name,score);
+			console.log('submit' + name);
+			console.log(model.game.score);
+			vm.updateList(name, model.game.score);
+			$('#postform').trigger('reset').hide();
+			$('.closebtn').show();
 		});
 
 		vm.getList();
-
 
 	}
 );
