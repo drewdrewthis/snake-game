@@ -608,4 +608,7 @@ var controller = {
 // Run the game
 $(document).ready(function() {
 	controller.init();
+	var audio = new Audio('audio/looperman-l-1319133-0091455-fanto8bc-stress-maximum.mp3');
+	audio.loop = true;
+	audio.play();
 });
