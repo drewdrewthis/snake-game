@@ -29,7 +29,13 @@ var snakegame = angular.module('snakegame', ['backand'])
 				var count = 1;
 				console.log('Got data');
 				datArr.sort(function(a,b) {
-					return a.score < b.score;
+					if (a.score < b.score) {
+					    return 1;
+					  }
+					  if (a.score > b.score) {
+					    return -1;
+					  }
+					  return 0;
 				});
 				console.log(datArr);
 				//localStorage.highscores = JSON.stringify(datArr);
