@@ -1,8 +1,7 @@
 #JS Snake Game 
 ##A new spin on an old classic
-=======
 
-[https://github.com/drewdrewthis/snake-game](https://github.com/drewdrewthis/snake-game)
+Click here to play the game on gh-pages: [https://github.com/drewdrewthis/snake-game](https://github.com/drewdrewthis/snake-game)
 
 ## Synopsis
 
