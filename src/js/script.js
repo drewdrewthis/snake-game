@@ -1,431 +1,617 @@
-var direction, snake, head, score, prev_direction, x, y;
-var isFlip = true,
-	isTurn = false,
-	isCorner = false;
-	isPaused = true;
-var gameOptions = {
-	"speed" : 100,
-	"dimension" : 15, // This is the variable that determines the number of quadrants of one side
-	"theme" : "theme1"
+var model = {
+
+	init: function() {
+		var snake = {
+				array: [
+					[~~(model.game.options.dimension / 2) - 3, ~~(model.game.options.dimension / 2)],
+					[~~(model.game.options.dimension / 2) - 2, ~~(model.game.options.dimension / 2)],
+					[~~(model.game.options.dimension / 2) - 1, ~~(model.game.options.dimension / 2)],
+					[~~(model.game.options.dimension / 2), ~~(model.game.options.dimension / 2)]
+				],
+				direction: "right",
+				hasFlip: true
+			};
+		snake.head = snake.array.length - 1;
+		snake.prev_direction = snake.direction;
+		model.snake = snake;
+
+		// Reset score on init()
+		model.game.score = 0;
+	},
+
+	game: {
+		score: 0,
+		isPaused: true,
+		options: {
+			"speed": 100,
+			"dimension": 15, // This is the variable that determines the number of quadrants of one side
+			"theme": "theme1"
+		},
+		directions: ["right", "left", "up", "down"]
+	},
+
+	// Clever way to store all of the frog timeouts for clearing later. 
+	frogTOs: []
 };
-var directions = ["right","left","up","down"];
 
+var view = {
 
-// Takes coordinates and returns the quadrant 
-function quad(coord) {
-	return $('[data-xcoord=' + coord[0] + '][data-ycoord=' + coord[1] + ']');
-}
+	init: function() {
+		var dimension = controller.getBoardDimension();
+		var snake = controller.getSnake();
+		view.assignKeyControls();
+		view.setupBoard(dimension, snake);
+		view.mobileControls();
+		view.userOptions();
+		controller.makeFrog();
+	},
 
-// Randomly place a piece of frog on the board
-function makeFrogs() {
-	x = Math.floor(Math.random() * ((gameOptions.dimension - 1) - 0)) + 1;
-	y = Math.floor(Math.random() * ((gameOptions.dimension - 1) - 0)) + 1;
+	userOptions: function() {
+		var needsReset = false;
 
-	// Make new frog at random coords as long as the snake isn't there already
-	if(quad([x,y]).hasClass('snake')) {
-		makeFrogs();
-	}
-	else {
-		quad([x, y]).addClass('frog').addClass(directions[Math.floor(Math.random() * directions.length)]);
-	}
-	console.log("New Frog: " + x + "," + y);
-}
+		$('#options-form-submit').on('click', function(event) {
 
-// Set up the board and initialize the game
-function setup() {
-	$('.board').html('');
-	var boardW = $('.board').width();
-	$('.board').css('height', boardW);
-	score = 0;
-	$('#score').text(score);
-	isPaused = true;
-	direction = "right";
-	prev_direction = direction;
-	snake = [
-		[~~(gameOptions.dimension / 2) - 3, ~~(gameOptions.dimension / 2)],
-		[~~(gameOptions.dimension / 2) - 2, ~~(gameOptions.dimension / 2)],
-		[~~(gameOptions.dimension / 2) - 1, ~~(gameOptions.dimension / 2)],
-		[~~(gameOptions.dimension / 2), ~~(gameOptions.dimension / 2)]
-	];
-	head = snake.length - 1;
-
-	// Build board quadrants
-	for (var y = 0; y < gameOptions.dimension; y++) {
-		for (var x = 0; x < gameOptions.dimension; x++) {
-			$('.board').append('<div class="quadrant" data-xcoord="' + x + '" data-ycoord="' + y + '"></div>');
-		}
-	}
-	$('.quadrant').css({
-		width: (boardW/gameOptions.dimension/boardW*100)+"%",
-		height: (boardW/gameOptions.dimension/boardW*100)+"%"
-	});
-	makeFrogs();
-	quad(snake[head]).addClass("snake snake-head").addClass(direction);
-	// Give new head position snake class
-	quad(snake[head - 1]).addClass("snake snake-body-1 flip").addClass(direction);
-	// Give new head position snake class
-	quad(snake[head - 2]).addClass("snake snake-body-main flip").addClass(direction);
-	// Give new head position snake class
-	quad(snake[0]).addClass("snake snake-tail flip").addClass(direction);
-}
-
-function pauseGame() {
-	if (!isPaused) {
-		isPaused = true;
-		$('#start_stop').html("Resume");
-
-	} else {
-		progress_snake(snake);
-		$('#start_stop').text("Pause");
-		isPaused = false;
-	}
-}
-
-// Test move to see if game has ended
-function isOver(coord) {
-
-	if (quad(coord).hasClass("snake")) {
-
-		console.log("Over! Bit its tail! " + coord);
-		return true;
-	}
-
-	if (coord[0] >= gameOptions.dimension || coord[1] >= gameOptions.dimension || coord[0] < 0 || coord[1] < 0) {
-		console.log("Over! Crashed into the wall! " + coord);
-		return true;
-	} else {
-		return false;
-	}
-}
-
-// Grow snake
-function growSnake(new_pos) {
-	// Add new position to snake array
-	snake.push(new_pos);
-
-	// Reset head
-	head = snake.length - 1;
-}
-
-function makeCorner(coords) {
-	// Make quadrant behind head a corner
-	quad(coords).addClass("snake-corner");
-	//console.log(prev_direction + " : " + direction + " " + coords);
-
-	if ((prev_direction == "up" && direction == "right") ||
-		(prev_direction == "left" && direction == "down")) {
-		// Rotate 90
-		quad(coords).addClass('right-corner');
-	}
-	if ((prev_direction == "up" && direction == "left") ||
-		(prev_direction == "right" && direction == "down")) {
-		// Rotate -90
-		quad(coords).addClass('left-corner');
-	}
-	if ((prev_direction == "down" && direction == "right") ||
-		(prev_direction == "left" && direction == "up")) {
-		// Rotate -90
-		quad(coords).addClass('down-right-corner');
-	}
-	if ((prev_direction == "down" && direction == "left") ||
-		(prev_direction == "right" && direction == "up")) {
-		// Rotate 180
-		quad(coords).addClass('down-left-corner');
-	}
-
-	// Reset corner and prev_direction to avoid loop.
-	prev_direction = direction;
-}
-
-// Tests to see if the quadrant the snake entered has frog
-function isfrog(coord) {
-
-	if (quad(coord).hasClass('frog')) {
-		score++;
-		$('#score').text(score);
-		return true;
-	}
-	return false;
-}
-
-// Test move to see if game has ended
-function progress_snake(snake) {
-
-	var x = snake[head][0];
-	var y = snake[head][1];
-	var new_pos = [x, y];
-
-	// "Hypothetically" moves the head one space ahead in current direction
-	switch (direction) {
-		case "left":
-			new_pos[0]--;
-			break;
-
-		case "up": // up
-			new_pos[1]--;
-			break;
-
-		case "right":
-			new_pos[0]++;
-			break;
-
-		case "down": // down
-			new_pos[1]++;
-			break;
-	}
-
-	var progress_loop = setTimeout(function() {
-
-		if (isOver(new_pos)) {
-			clearTimeout(progress_loop);
-		} else {
-
-			if (isfrog(new_pos)) {
-				// If new quadrant has a frog
-				// Remove frog class and make a new frog
-				quad(new_pos).removeClass("frog");
-				makeFrogs();
-				growSnake(new_pos);
-
-			} else {
-				// If new quadrant has no frog
-				// Remove tail
-				quad(snake[0]).removeClass().addClass('quadrant');
-
-				// Move each snake coordinate up one place in snake array
-				for (var i = 0; i < snake.length - 1; i++) {
-					snake[i] = snake[i + 1];
+			$("#options-form input:checked").each(function() {
+				if(this.name == "dimension" &&
+					this.value != model.game.options.dimension) {
+					needsReset = true;
 				}
+				model.game.options[this.name] = this.value;
+			});
 
-				// Gives the snake head new coords
-				snake[head] = new_pos;
+			if(needsReset) {
+				controller.game.reset();
 			}
 
-			// Give new head position snake class
-			quad(snake[head]).removeClass().addClass("quadrant snake snake-head").addClass(direction);
+			console.log("Resetting game with new Options..");
+			console.log(model.game.options);
+			event.preventDefault();
+		});
+	},
 
-			// Putting this after the isCorner conditionals makes allows the snake to progress
-			// one space before creating the corner
-			if (prev_direction != direction) {
-				// This commented out line will delay the head turn by one iteration, but messes up the tail
-				// turning at the corner. 
-				quad(snake[head]).removeClass().addClass("quadrant snake snake-head-2").addClass(direction);
-				makeCorner(snake[head]);
-			}
+	setupBoard: function(dimension, snake) {
+		// Set up the board and initialize the game
+		$('.board').html('');
+		var boardW = $('.board').width();
+		$('.board').css('height', boardW);
+		$('.score').text(model.game.score);
+		$('.highscore').text(localStorage.highscore);
+		$('.close, .closebtn').click(function() {
+			$('.modal').hide();
+			controller.game.reset();
+			$('#postform').show();
+			$('.closebtn').hide();
+		});
 
-			if (isFlip) {
-				// Give first 3 snake quadrants and tail a mirror image from last iteration to maintain S shape
-				quad(snake[head], snake[head - 1], snake[head - 2], snake[0]).toggleClass("flip");
-			}
+		window.addEventListener("resize", function() {
+			$('.board').css('height', $('.board').width());
+		}, false);
 
-			// Update rest of body images
-			if (!(quad(snake[head - 1])).hasClass('snake-corner')) {
-				// Give give second position new snake class if not already a corner
-				quad(snake[head - 1]).addClass("snake snake-body-1").removeClass("snake-head-2, snake-head");
-			} else {
-				// Add alternate corner class for clean connection to head
-				quad(snake[head]).addClass("alternate-head");
-				quad(snake[head - 1]).removeClass("snake-head, snake-head-2");
-			}
-			if (!(quad(snake[head - 2])).hasClass('snake-corner')) {
-				// Give third position snake class snake class if not a corner
-				quad(snake[head - 2]).addClass("snake snake-body-main").removeClass("snake-body-1").toggleClass("flip");
-			} else {
-				// Remove alternate corner class meant just for connection to head
-				quad(snake[head - 1]).removeClass("alternate-head");
-			}
-			if ((quad(snake[0])).hasClass('snake-corner')) {
-				// Give new tail position tail class
-				quad(snake[0]).addClass("snake snake-tail").removeClass("snake-body-main snake-corner");
-			} else {
-				quad(snake[0]).addClass("snake snake-tail").removeClass("snake-body-main snake-corner").toggleClass("flip");
-			}
-
-			// Alternate snake body image
-			isFlip = !isFlip;
-
-			// Goes through the cycles again if not isPaused
-			if (!isPaused) {
-				progress_snake(snake);
+		// Build board quadrants
+		for (var y = 0; y < dimension; y++) {
+			for (var x = 0; x < dimension; x++) {
+				$('.board').append('<div class="quadrant" data-xcoord="' + x + '" data-ycoord="' + y + '"></div>');
 			}
 		}
-	}, gameOptions.speed);
-}
+		$('.quadrant').css({
+			width: (boardW / dimension / boardW * 100) + "%",
+			height: (boardW / dimension / boardW * 100) + "%"
+		});
+		view.quad(snake.array[snake.head]).addClass("snake snake-head").addClass(snake.direction);
+		// Give new head position snake class
+		view.quad(snake.array[snake.head - 1]).addClass("snake snake-body-1 flip").addClass(snake.direction);
+		// Give new head position snake class
+		view.quad(snake.array[snake.head - 2]).addClass("snake snake-body-main flip").addClass(snake.direction);
+		// Give new head position snake class
+		view.quad(snake.array[0]).addClass("snake snake-tail flip").addClass(snake.direction);
+	},
 
-function goUp() {
-	if (direction != "down") {
-		prev_direction = direction;
-		direction = "up";
-		//console.log('up');
-	}
-}
+	quad: function(coord) {
+		// Takes coordinates and returns the quadrant 
+		return $('[data-xcoord=' + coord[0] + '][data-ycoord=' + coord[1] + ']');
+	},
 
-function goDown() {
-	if (direction != "up") {
-		prev_direction = direction;
-		direction = "down";
-		//console.log('down');
-	}
-}
+	assignKeyControls: function() {
+		// Take user input and set snake direction
+		$(document).keydown(function(e) {
 
-function goLeft() {
-	if (direction != "right") {
-		prev_direction = direction;
-		direction = "left";
-		//console.log('left');
-	}
-}
+			
+			switch (e.which) {
+				case 37: // left
+					if (model.game.isPaused) {
+						controller.game.pause(model.snake);
+						isPaused = false;
+					}
+					controller.moveSnake.left(model.snake);
+					$('#left').addClass('pressed');
+					break;
 
-function goRight() {
-	if (direction != "left") {
-		prev_direction = direction;
-		direction = "right";
-		//console.log('right');
+				case 38: // up
+					if (model.game.isPaused) {
+						controller.game.pause(model.snake);
+						isPaused = false;
+					}
+					controller.moveSnake.up(model.snake);
+					$('#up').addClass('pressed');
+					break;
+
+				case 39: // right
+					if (model.game.isPaused) {
+						controller.game.pause(model.snake);
+						isPaused = false;
+					}
+					controller.moveSnake.right(model.snake);
+					$('#right').addClass('pressed');
+					break;
+
+				case 40: // down
+					if (model.game.isPaused) {
+						controller.game.pause();
+						isPaused = false;
+					}
+					controller.moveSnake.down(model.snake);
+					$('#down').addClass('pressed');
+					break;
+
+				//case 80: // p
+				//case 83: // s
+				case 27: // escape
+					$('.modal').hide();
+					break;
+
+				case 32: // space
+					controller.game.pause(model.snake);
+					break;
+
+				/*case 84: // r
+					if($('#highscoreModal').css('display') == 'none') {
+						controller.game.pause(model.snake);
+
+						console.log('pussssh');
+					}
+					break;
+
+
+				case 77: // m
+					if($('#highscoreModal').css('display') == 'none') {
+						view.makeFrogs();
+
+						console.log('pussssh');
+					}
+					break;
+				*/
+
+				default:
+					return; // exit this handler for other keys
+			}
+
+			e.preventDefault(); // prevent the default action (scroll / move caret)
+		});
+
+		// Take user input and set snake direction
+		$(document).keyup(function(e) {
+			switch (e.which) {
+				case 37: // left
+
+					$('#left').removeClass('pressed');
+					break;
+
+				case 38: // up
+
+					$('#up').removeClass('pressed');
+					break;
+
+				case 39: // right
+
+					$('#right').removeClass('pressed');
+					break;
+
+				case 40: // down
+
+					$('#down').removeClass('pressed');
+					break;
+
+				default:
+					return; // exit this handler for other keys
+			}
+			e.preventDefault(); // prevent the default action (scroll / move caret)
+		});
+	},
+
+
+	mobileControls: function() {
+		// Set button click functions
+		$('#start_stop').on('tap', function() {
+			if ($(this).text() == "Pause") {
+				controller.game.pause(model.snake);
+				return;
+			}
+			if ($(this).text() == "Resume") {
+				controller.game.pause(model.snake);
+				return;
+			}
+			if ($(this).text() == "Start") {
+				$(this).text("Pause");
+				isPaused = false;
+				controller.moveSnake.go(model.snake);
+				return;
+			}
+		});
+		$('#reset').on('tap', function() {
+			$('#start_stop').text("Start");
+			controller.game.reset();
+		});
+		$('#more_frogs').on('tap', function() {
+			controller.makeFrog();
+		});
+
+		// Game controller 
+		$('#left').on('tap', function() {
+			controller.moveSnake.left(model.snake);
+		});
+		$('#up').on('tap', function() {
+			controller.moveSnake.up(model.snake);
+		});
+		$('#right').on('tap', function() {
+			controller.moveSnake.right(model.snake);
+		});
+		$('#down').on('tap', function() {
+			controller.moveSnake.down(model.snake);
+		});
+
 	}
-}
+
+};
+
+var controller = {
+
+	init: function() {
+		console.log("Initializing game..");
+		model.init();
+		if(!localStorage.highscore) {
+			localStorage.highscore = 0;
+		}
+		view.init();
+	},
+
+	getBoardDimension: function() {
+		return model.game.options.dimension;
+	},
+
+	getSnake: function() {
+		return model.snake;
+	},
+
+	setHighScore: function() {
+		if (localStorage.highscore < model.game.score) {
+			localStorage.highscore = model.game.score;
+			$('.highscore').text(localStorage.highscore);
+		}
+
+		$('#highscoreModal').show();
+	},
+
+	game: {
+
+		pause: function(snake) {
+			if (!model.game.isPaused) {
+				model.game.isPaused = true;
+				$('#start_stop').html("Resume");
+
+			} else {
+				controller.moveSnake.go(snake);
+				$('#start_stop').text("Pause");
+				model.game.isPaused = false;
+			}
+		},
+
+		// Test move to see if game has ended
+		isOver: function(coord) {
+
+			if (view.quad(coord).hasClass("snake")) {
+
+				console.log("Over! Bit its tail! " + coord);
+				controller.setHighScore();
+				return true;
+			}
+
+			if (coord[0] >= model.game.options.dimension ||
+				coord[1] >= model.game.options.dimension ||
+				coord[0] < 0 ||
+				coord[1] < 0) {
+				console.log("Over! Crashed into the wall! " + coord);
+				controller.setHighScore();
+				return true;
+			} else {
+				return false;
+			}
+		},
+
+		reset: function() {
+			controller.cancelHops();
+			model.init();
+			view.setupBoard(model.game.options.dimension,model.snake);
+			$('frog').removeClass().addClass('quadrant');
+			controller.makeFrog();
+		}
+	},
+
+	// Grow snake
+	growSnake: function(new_pos, snake) {
+		// Add new position to snake array
+		snake.array.push(new_pos);
+
+		// Reset head
+		snake.head = snake.array.length - 1;
+	},
+
+	moveSnake: {
+
+		up: function(snake) {
+			if (snake.direction != "down") {
+				snake.prev_direction = snake.direction;
+				snake.direction = "up";
+				//console.log('up');
+			}
+		},
+
+		down: function(snake) {
+			if (snake.direction != "up") {
+				snake.prev_direction = snake.direction;
+				snake.direction = "down";
+				//console.log('down');
+			}
+		},
+
+		left: function(snake) {
+			if (snake.direction != "right") {
+				snake.prev_direction = snake.direction;
+				snake.direction = "left";
+				//console.log('left');
+			}
+		},
+
+		right: function(snake) {
+			if (snake.direction != "left") {
+				snake.prev_direction = snake.direction;
+				snake.direction = "right";
+				//console.log('right');
+			}
+		},
+
+		go: function(snake) {
+
+			var x = snake.array[snake.head][0],
+				y = snake.array[snake.head][1],
+				new_pos = [x, y];
+
+			// "Hypothetically" moves the head one space ahead in current direction
+			switch (snake.direction) {
+				case "left":
+					new_pos[0]--;
+					break;
+
+				case "up": // up
+					new_pos[1]--;
+					break;
+
+				case "right":
+					new_pos[0]++;
+					break;
+
+				case "down": // down
+					new_pos[1]++;
+					break;
+			}
+
+			var progress_loop = setTimeout(function() {
+
+				if (controller.game.isOver(new_pos)) {
+					clearTimeout(progress_loop);
+				} else {
+
+					if (controller.isFrog(new_pos)) {
+						// If new quadrant has a frog
+						// Remove frog class and make a new frog
+						view.quad(new_pos).removeClass("frog");
+						controller.makeFrog();
+						controller.growSnake(new_pos, snake);
+
+					} else {
+						// If new quadrant has no frog
+						// Remove tail
+						view.quad(snake.array[0]).removeClass().addClass('quadrant');
+
+						// Move each snake coordinate up one place in snake array
+						for (var i = 0; i < snake.array.length - 1; i++) {
+							snake.array[i] = snake.array[i + 1];
+						}
+
+						// Gives the snake head new coords
+						snake.array[snake.head] = new_pos;
+					}
+
+					// Give new head position snake class
+					view.quad(snake.array[snake.head]).removeClass().addClass("quadrant snake snake-head").addClass(snake.direction);
+
+					// Putting this after the isCorner conditionals makes allows the snake to progress
+					// one space before creating the corner
+					if (snake.prev_direction != snake.direction) {
+						// This commented out line will delay the head turn by one iteration, but messes up the tail
+						// turning at the corner. 
+						view.quad(snake.array[snake.head]).removeClass().addClass("quadrant snake snake-head-2").addClass(snake.direction);
+						controller.makeCorner(snake.array[snake.head]);
+					}
+
+					if (snake.hasFlip) {
+						// Give first 3 snake quadrants and tail a mirror image from last iteration to maintain S shape
+						view.quad(snake.array[snake.head], snake.array[snake.head - 1], snake.array[snake.head - 2], snake.array[0]).toggleClass("flip");
+					}
+
+					// Update rest of body images
+					if (!(view.quad(snake.array[snake.head - 1])).hasClass('snake-corner')) {
+						// Give give second position new snake class if not already a corner
+						view.quad(snake.array[snake.head - 1]).addClass("snake snake-body-1").removeClass("snake-head-2, snake-head");
+					} else {
+						// Add alternate corner class for clean connection to head
+						view.quad(snake.array[snake.head]).addClass("alternate-head");
+						view.quad(snake.array[snake.head - 1]).removeClass("snake-head, snake-head-2");
+					}
+					if (!(view.quad(snake.array[snake.head - 2])).hasClass('snake-corner')) {
+						// Give third position snake class snake class if not a corner
+						view.quad(snake.array[snake.head - 2]).addClass("snake snake-body-main").removeClass("snake-body-1").toggleClass("flip");
+					} else {
+						// Remove alternate corner class meant just for connection to head
+						view.quad(snake.array[snake.head - 1]).removeClass("alternate-head");
+					}
+					if ((view.quad(snake.array[0])).hasClass('snake-corner')) {
+						// Give new tail position tail class
+						view.quad(snake.array[0]).addClass("snake snake-tail").removeClass("snake-body-main snake-corner");
+					} else {
+						view.quad(snake.array[0]).addClass("snake snake-tail").removeClass("snake-body-main snake-corner").toggleClass("flip");
+					}
+
+					// Alternate snake body image
+					snake.hasFlip = !snake.hasFlip;
+
+					// Goes through the cycles again if not isPaused
+					if (!model.game.isPaused) {
+						controller.moveSnake.go(snake);
+					}
+				}
+			}, model.game.options.speed);
+		}
+	},
+
+	makeCorner: function(coords, snake) {
+		// Make quadrant behind head a corner
+		view.quad(coords).addClass("snake-corner");
+		//console.log(prev_direction + " : " + direction + " " + coords);
+
+		if ((model.snake.prev_direction == "up" && model.snake.direction == "right") ||
+			(model.snake.prev_direction == "left" && model.snake.direction == "down")) {
+			// Rotate 90
+			view.quad(coords).addClass('right-corner');
+		}
+		if ((model.snake.prev_direction == "up" && model.snake.direction == "left") ||
+			(model.snake.prev_direction == "right" && model.snake.direction == "down")) {
+			// Rotate -90
+			view.quad(coords).addClass('left-corner');
+		}
+		if ((model.snake.prev_direction == "down" && model.snake.direction == "right") ||
+			(model.snake.prev_direction == "left" && model.snake.direction == "up")) {
+			// Rotate -90
+			view.quad(coords).addClass('down-right-corner');
+		}
+		if ((model.snake.prev_direction == "down" && model.snake.direction == "left") ||
+			(model.snake.prev_direction == "right" && model.snake.direction == "up")) {
+			// Rotate 180
+			view.quad(coords).addClass('down-left-corner');
+		}
+
+		// Reset corner and prev_direction to avoid loop.
+		model.snake.prev_direction = model.snake.direction;
+	},
+
+	// Tests to see if the quadrant the snake entered has frog
+	isFrog: function(coord) {
+
+		if (view.quad(coord).hasClass('frog')) {
+			model.game.score++;
+			$('.score').text(model.game.score);
+			return true;
+		}
+		return false;
+	},
+
+	makeFrog: function() {
+		var dimension = model.game.options.dimension,
+			directions = model.game.directions,
+			frog = null;
+		// Randomly place a piece of frog on the board
+		x = Math.floor(Math.random() * ((dimension - 1) - 0)) + 1;
+		y = Math.floor(Math.random() * ((dimension - 1) - 0)) + 1;
+
+		// Make new frog at random coords as long as the snake isn't there already
+		if (view.quad([x, y]).hasClass('snake')) {
+			controller.makeFrog();
+		} else {
+			frog = view.quad([x,y]);
+			frog.addClass('frog').addClass(directions[Math.floor(Math.random() * directions.length)]);
+		}
+
+		controller.delayHop(frog, 2000);
+
+		console.log("New Frog: " + x + "," + y);
+	},
+
+	frogHop: function(frog) {
+
+		var x = frog.data("xcoord");
+		var y = frog.data("ycoord");
+		var new_pos = [x, y];
+		var direction = null;
+		
+		model.game.directions.forEach(function(dir) {
+			if (frog.hasClass(dir)) {
+				direction = dir;
+			}
+		});
+
+		switch (direction) {
+
+			case "up":
+				new_pos[1] -= 2;
+				break;
+
+			case "down":
+				new_pos[1] += 2;
+
+				break;
+			case "left":
+				new_pos[0] -= 2;
+				break;
+
+			case "right":
+				new_pos[0] += 2;
+				break;
+
+			default:
+				console.log("froghop failed: " + new_pos);
+				break;
+		}
+
+		frog.removeClass('frog');
+		frog = view.quad(new_pos);
+
+		if (!frog.hasClass('snake') && frog.hasClass('quadrant')) {
+			frog.addClass(direction + " frog");
+			controller.delayHop(frog, 2000);
+		}
+		else {
+			console.log("Stopped hop");
+			if($('.frog').length < 1) controller.makeFrog();
+		}
+	},
+
+	delayHop: function(frog, time) {
+		model.frogTOs.push(setTimeout(function() {
+			controller.frogHop(frog);
+		}, time));
+	},
+
+	cancelHops: function() {
+		for(var i = 0; i < model.frogTOs.length; i++) {
+			clearTimeout(model.frogTOs[i]);
+		}
+		model.frogTOs = [];
+	}
+};
 
 // Run the game
 $(document).ready(function() {
-
-	setup();
-
-	window.addEventListener("resize", function() {
-		$('.board').css('height', $('.board').width());
-	}, false);
-
-	// Set button click functions
-	$('#start_stop').on('tap', function() {
-		if ($(this).text() == "Pause") {
-			pauseGame();
-			return;
-		}
-		if ($(this).text() == "Resume") {
-			pauseGame();
-			return;
-		}
-		if ($(this).text() == "Start") {
-			$(this).text("Pause");
-			isPaused = false;
-			progress_snake(snake);
-			return;
-		}
-	});
-	$('#reset').on('tap', function() {
-		$('#start_stop').text("Start");
-		setup();
-	});
-	$('#more_frogs').on('tap', function() {
-		makeFrogs();
-	});
-
-	// Game controller 
-	$('#left').on('tap', function() {
-		goLeft();
-	});
-	$('#up').on('tap', function() {
-		goUp();
-	});
-	$('#right').on('tap', function() {
-		goRight();
-	});
-	$('#down').on('tap', function() {
-		goDown();
-	});
-
-	$('#options-form-submit').on('click', function(event) {
-		$("#options-form input:checked").each(function(){
-			gameOptions[this.name] = this.value;
-		});
-		console.log(gameOptions);
-		event.preventDefault();
-	});
-});
-
-// Take user input and set snake direction
-$(document).keydown(function(e) {
-	switch (e.which) {
-		case 37: // left
-			if(isPaused) {
-				pauseGame();
-				isPaused = false;
-			}
-			goLeft();
-			$('#left').addClass('pressed');
-			break;
-
-		case 38: // up
-			if(isPaused) {
-				pauseGame();
-				isPaused = false;
-			}
-			goUp();
-			$('#up').addClass('pressed');
-			break;
-
-		case 39: // right
-			if(isPaused) {
-				pauseGame();
-				isPaused = false;
-			}
-			goRight();
-			$('#right').addClass('pressed');
-			break;
-
-		case 40: // down
-			if(isPaused) {
-				pauseGame();
-				isPaused = false;
-			}
-			goDown();
-			$('#down').addClass('pressed');
-			break;
-
-		case 80: // p
-		case 83: // s
-		case 27: // escape
-		case 32: // space
-			pauseGame();
-			break;
-
-		case 84: // r
-			setup();
-			break;
-
-		case 77: // m
-			makeFrogs();
-			break;
-
-		default:
-			return; // exit this handler for other keys
-	}
-	e.preventDefault(); // prevent the default action (scroll / move caret)
-});
-
-// Take user input and set snake direction
-$(document).keyup(function(e) {
-	switch (e.which) {
-		case 37: // left
-
-			$('#left').removeClass('pressed');
-			break;
-
-		case 38: // up
-
-			$('#up').removeClass('pressed');
-			break;
-
-		case 39: // right
-
-			$('#right').removeClass('pressed');
-			break;
-
-		case 40: // down
-
-			$('#down').removeClass('pressed');
-			break;
-
-		default:
-			return; // exit this handler for other keys
-	}
-	e.preventDefault(); // prevent the default action (scroll / move caret)
+	controller.init();
+	var audio = new Audio('audio/looperman-l-1319133-0091455-fanto8bc-stress-maximum.mp3');
+	audio.loop = true;
+	//audio.play();
 });

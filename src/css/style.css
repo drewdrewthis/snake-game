@@ -14,6 +14,44 @@ body {
   border-left: 10px solid rgba(0, 128, 0, 0.2);
   border-right: 10px solid rgba(0, 128, 0, 0.2);
 }
+footer {
+  text-align: center;
+  color: red;
+  font-size: 1.2rem;
+  opacity: .5;
+}
+footer a {
+  color: red;
+}
+footer a:hover {
+  color: white;
+  text-decoration: none;
+}
+#highscoreModal {
+  color: white;
+  text-align: center;
+  background: rgba(255, 0, 0, 0.38);
+}
+#highscoreModal form {
+  color: black;
+}
+#highscoreModal ol {
+  max-height: 200px;
+  overflow-y: scroll;
+  width: 200px;
+  margin: auto;
+  opacity: .8;
+}
+#highscoreModal ol li:first-child {
+  opacity: 1;
+  color: #9F0000;
+}
+#highscoreModal .btn {
+  margin: 1rem auto;
+}
+#highscoreModal .closebtn {
+  display: none;
+}
 .modal-content {
   background: repeating-linear-gradient(45deg, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2) 10px, rgba(0, 0, 0, 0.3) 10px, rgba(0, 0, 0, 0.3) 20px), url(http://s3-us-west-2.amazonaws.com/s.cdpn.io/3/old_map_@2X.png);
   font-family: 'Seymour One', sans-serif;
@@ -182,6 +220,7 @@ section {
 .board .snake {
   background: orange;
   background-size: cover!important;
+  background-repeat: no-repeat !important;
 }
 .board .snake.snake-body-1 {
   background: url('../images/snake-graphics_head-2.png');
