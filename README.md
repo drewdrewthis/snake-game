@@ -1,9 +1,6 @@
-# snake-game
-
-## Snake
-=======
 #JS Snake Game 
 ##A new spin on an old classic
+=======
 
 [https://github.com/drewdrewthis/snake-game](https://github.com/drewdrewthis/snake-game)
 
