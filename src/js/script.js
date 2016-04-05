@@ -156,6 +156,9 @@ var view = {
 				//case 80: // p
 				//case 83: // s
 				case 27: // escape
+					$('.modal').hide();
+					break;
+
 				case 32: // space
 					controller.game.pause(model.snake);
 					break;
