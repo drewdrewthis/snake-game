@@ -1,5 +1,5 @@
 #JS Snake Game 
-##A new spin on an old classic
+###A new spin on an old classic
 
 Click here to play the game on gh-pages: [https://github.com/drewdrewthis/snake-game](https://github.com/drewdrewthis/snake-game)
 
@@ -11,7 +11,7 @@ This was my opportunity to try a bunch of new technologies, practice my programm
 
 I continue to work on it and add new features, so be sure to Star and Follow.
 
-#Technology
+##Technology
 
 Here's a list of technologies used in this game:
 
